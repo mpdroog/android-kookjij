@@ -7,4 +7,8 @@
 
     <string name="menu_item_search_action_hint">Zoekterm</string>
     <string name="menu_item_search_action_menu_text">Search</string>    
+
+    <string name="loading">Ophalen van artikel</string>
+    <string name="loading_slow">Loading from server</string>
+    <string name="failedloading">Helaas, er ging iets verkeers tijdens het ophalen van de website.</string>
 </resources>

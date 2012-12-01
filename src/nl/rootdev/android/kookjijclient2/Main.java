@@ -4,6 +4,7 @@ import nl.rootdev.android.kookjijclient2.ui.TabsAdapter;
 import nl.rootdev.android.kookjijclient2.ui.fixes.MenuItemSearchAction;
 import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
 import nl.rootdev.android.kookjijclient2.ui.fragments.HomeFragment;
+import nl.rootdev.android.kookjijclient2.ui.frames.RecipieFrame;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Context;
 import android.os.Bundle;
@@ -39,7 +40,7 @@ public class Main extends SherlockFragmentActivity implements SearchPerformListe
 		pager.setId(R.id.normal);
 		tabAdapter = new TabsAdapter(this, pager);
     	//tabAdapter.addTab(bar.newTab().setText("Categorieen"), CategoriesFragment.class, null);
-		tabAdapter.addTab(bar.newTab().setText("Recept v/d Dag"), HomeFragment.class, null, true);
+		tabAdapter.addTab(bar.newTab().setText("Recept v/d Dag"), RecipieFrame.class, null, true);
     	//tabAdapter.addTab(bar.newTab().setText("Column"), ColumnFragment.class, null);
     	//tabAdapter.addTab(bar.newTab().setText("Favorieten"), FavoriteGridFragment.class, null);
     	setContentView(pager);
