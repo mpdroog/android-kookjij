@@ -1,6 +1,5 @@
 package nl.rootdev.android.kookjijclient2.ui.frames;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
@@ -8,7 +7,7 @@ import java.util.zip.GZIPInputStream;
 import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.datastructures.pb.Recipie;
 import nl.rootdev.android.kookjijclient2.ui.fragments.ErrorFragment;
-import nl.rootdev.android.kookjijclient2.ui.fragments.HomeFragment;
+import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.LoadingFragment;
 import nl.rootdev.android.kookjijclient2.ui.tasks.AsyncDownload;
 import android.graphics.Bitmap;
@@ -21,8 +20,44 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.dyuproject.protostuff.me.ProtostuffIOUtil;
 
-public class RecipieFrame extends SherlockFragment {
+/**
+ * The master of a group of fragments responsible in
+ * coordinating the download and showing fragments based
+ * on it's results.
+ * 
+ * It simply tries to download a Recipie.
+ * - During downloading show the LoadingFragment
+ * - In case of an 'Error' open up the ErrorFragment
+ * - In case of success open the HomeFragment
+ * 
+ * @author mark
+ */
+public class RecipieFrame extends SherlockFragment implements IConnectionHandle  {
+	/** Reference in case we need to intervene (UI requests) */
 	private AsyncDownload _download;
+	/** If the last subview was the errorscreen */
+	private boolean _lastViewError;
+
+	/**
+	 * Stop downloading the data from the web.
+	 */
+	public void stopDownload() {
+		_download.cancel(true);
+	}
+	
+	/**
+	 * Stop the download and spawn a new one.
+	 * Useful for 'hanging' connections so
+	 * the user can say stop and try again.
+	 */
+	public void retryDownload() {
+		if (_lastViewError) {
+			openLoading();
+			_lastViewError = false;
+		}
+		_download.cancel(true);
+		startAsyncDownload();
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,16 +67,19 @@ public class RecipieFrame extends SherlockFragment {
 	
 	@Override
 	public void onDestroyView() {
-		// Close all connections from the background processes
+		_download.cancel(true);
 		super.onDestroyView();
 	}
 	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		final LoadingFragment loading = new LoadingFragment();
+	private void openLoading() {
+		final LoadingFragment loading = new LoadingFragment(this);
 		FragmentTransaction action = getFragmentManager().beginTransaction();
 		action.replace(R.id.contentFragment, loading).commit();
+	}
+	
+	private void startAsyncDownload() {
+		openLoading();
+		final RecipieFrame that = this; /* This really feels like Javascript XD, async FTW */
 
 		try {
 			_download = new AsyncDownload(getSherlockActivity().getCacheDir().toString()) {
@@ -51,11 +89,12 @@ public class RecipieFrame extends SherlockFragment {
 				@Override
 				protected void onPostExecute(String result) {
 					if(getException() == null) {
-						final HomeFragment home = new HomeFragment(_recipie, _image);
+						final RecipieFragment home = new RecipieFragment(_recipie, _image);
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 						action2.replace(R.id.contentFragment, home).commit();
 					} else {
-						final ErrorFragment error = new ErrorFragment(getException());
+						_lastViewError = true;
+						final ErrorFragment error = new ErrorFragment(that, getException());
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 						action2.replace(R.id.contentFragment, error).commit();
 					}
@@ -86,18 +125,22 @@ public class RecipieFrame extends SherlockFragment {
 		}
 		catch(Exception e) {
 			// Remove this?
-			final ErrorFragment error = new ErrorFragment(e);
+			_lastViewError = true;
+			final ErrorFragment error = new ErrorFragment(this, e);
 			final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 			action2.replace(R.id.contentFragment, error).commit();
 		}
 	}
 	
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		startAsyncDownload();
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		View screen = inflater.inflate(R.layout.recipiefragment, container, false);
-
-		return screen;
+		return inflater.inflate(R.layout.recipiefragment, container, false);
 	}
 }

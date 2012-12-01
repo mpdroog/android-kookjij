@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import nl.rootdev.android.kookjijclient2.R;
+import nl.rootdev.android.kookjijclient2.ui.frames.IConnectionHandle;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,12 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class ErrorFragment extends SherlockFragment
 {
-	private Exception _exception;
+	private final Exception _exception;
+	private final IConnectionHandle _handle;
 	
-	public ErrorFragment(Exception e) {
+	public ErrorFragment(IConnectionHandle handle, Exception e) {
 		_exception = e;
+		_handle = handle;
 	}
 	    
 	@Override
@@ -47,6 +50,15 @@ public class ErrorFragment extends SherlockFragment
 			public void onClick(View v) {
 				stacktrace.setVisibility(View.VISIBLE);
 				button.setEnabled(false);
+			}
+		});
+		
+		final Button retry = (Button) getSherlockActivity().findViewById(R.id.retry);
+		retry.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				_handle.retryDownload();
 			}
 		});
 	}

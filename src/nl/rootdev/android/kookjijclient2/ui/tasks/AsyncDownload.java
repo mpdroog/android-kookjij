@@ -13,9 +13,24 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+/**
+ * Base class for downloading data from the webserver.
+ * 
+ * What this class does for you:
+ * - Return how much % is finished
+ * - Downloading only text if internet connection is slow
+ *   (on fast connection download text+additional)
+ * - Start HTTP caching on Android's supporting this
+ * 
+ * @author mark
+ *
+ */
 public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
+	/** Stream to webserver with text */
 	protected ProgressInputStream _textStream;
+	/** Stream to webserver with image */
 	protected ProgressInputStream _imageStream;
+	/** Exception that occured during I/O with webserver */
 	private Exception _exception;
 	
 	/**
@@ -71,8 +86,10 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 				//throw new TimeoutException("Derp");
 			} else {
 				Thread.sleep(20000L);
+				throw new TimeoutException("Derp");
+
 				// Always read text
-				{
+				/*{
 					URLConnection link = params[0].openConnection();
 					_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
 					startTextDownload(_textStream);
@@ -83,7 +100,7 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 					URLConnection img = params[1].openConnection();
 					_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
 					getImageDownload(BitmapFactory.decodeStream(_imageStream));
-				}
+				}*/
 			}
 		}
 		catch(Exception e) {

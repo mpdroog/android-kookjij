@@ -16,4 +16,5 @@
     <string name="button_stacktrace">Toon oorzaak</string>
     <string name="product_preview">product preview</string>
     <string name="button_download_stop">Stop ophalen</string>
+    <string name="stopped_download">Downloaden geannuleerd</string>
 </resources>

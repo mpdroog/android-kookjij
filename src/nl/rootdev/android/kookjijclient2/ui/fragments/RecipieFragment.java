@@ -18,11 +18,18 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class HomeFragment extends SherlockFragment implements OnClickListener {
+/**
+ * Fragment for showing a Recipie.
+ * 
+ * @author mark
+ */
+public class RecipieFragment extends SherlockFragment implements OnClickListener {
+	/** Downloaded image from the webserver */
 	private final Bitmap _image;
+	/** Downloaded recipie from the webserver */
 	private final IRecipie _recipie;
 	
-	public HomeFragment(IRecipie recipie, Bitmap image) {
+	public RecipieFragment(IRecipie recipie, Bitmap image) {
 		_image = image;
 		_recipie = recipie;
 	}
@@ -35,10 +42,12 @@ public class HomeFragment extends SherlockFragment implements OnClickListener {
 	
 	@Override
 	public void onDestroyView() {
-		// Close all connections from the background processes
 		super.onDestroyView();
 	}
 	
+	/**
+	 * Fill the view with actual data.
+	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -65,8 +74,17 @@ public class HomeFragment extends SherlockFragment implements OnClickListener {
 		return inflater.inflate(R.layout.home, container, false);
 	}
 
+	/**
+	 * When on a slow internet connection the image is
+	 * never download automatically, so added onclick-listener
+	 * here to download it if the user want's.
+	 */
 	@Override
 	public void onClick(View v) {
+		if (_image != null) {
+			// No need to 'download image' if already loaded
+			return;
+		}
 		final ImageView preview = (ImageView) getSherlockActivity().findViewById(R.id.preview);
 		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 			private Bitmap _bitmap;

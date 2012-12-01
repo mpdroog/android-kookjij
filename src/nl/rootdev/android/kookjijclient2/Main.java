@@ -3,7 +3,7 @@ package nl.rootdev.android.kookjijclient2;
 import nl.rootdev.android.kookjijclient2.ui.TabsAdapter;
 import nl.rootdev.android.kookjijclient2.ui.fixes.MenuItemSearchAction;
 import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
-import nl.rootdev.android.kookjijclient2.ui.fragments.HomeFragment;
+import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
 import nl.rootdev.android.kookjijclient2.ui.frames.RecipieFrame;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Context;
