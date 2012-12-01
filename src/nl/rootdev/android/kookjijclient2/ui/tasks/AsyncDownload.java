@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.TimeoutException;
 
 import nl.rootdev.android.kookjijclient2.ui.tasks.utils.ProgressInputStream;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
@@ -15,6 +16,7 @@ import android.os.AsyncTask;
 public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 	protected ProgressInputStream _textStream;
 	protected ProgressInputStream _imageStream;
+	private Exception _exception;
 	
 	/**
 	 * @param tempFolder Use getSherlockActivity().getCacheDir()
@@ -65,23 +67,32 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 		}
 		
 		try {
-			// Always read text
-			{
-				URLConnection link = params[0].openConnection();
-				_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
-				startTextDownload(_textStream);
-			}
-			
-			// Only image on speedy connection
-			if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
-				URLConnection img = params[1].openConnection();
-				_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
-				getImageDownload(BitmapFactory.decodeStream(_imageStream));
+			if (false) {
+				//throw new TimeoutException("Derp");
+			} else {
+				Thread.sleep(20000L);
+				// Always read text
+				{
+					URLConnection link = params[0].openConnection();
+					_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
+					startTextDownload(_textStream);
+				}
+				
+				// Only image on speedy connection
+				if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
+					URLConnection img = params[1].openConnection();
+					_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
+					getImageDownload(BitmapFactory.decodeStream(_imageStream));
+				}
 			}
 		}
 		catch(Exception e) {
-			throw new RuntimeException(e);
+			_exception = e;
 		}
 		return "";
+	}
+
+	public Exception getException() {
+		return _exception;
 	}
 }

@@ -10,5 +10,10 @@
 
     <string name="loading">Ophalen van artikel</string>
     <string name="loading_slow">Loading from server</string>
-    <string name="failedloading">Helaas, er ging iets verkeers tijdens het ophalen van de website.</string>
+    <string name="failedloading">Helaas, er ging iets verkeerd tijdens het ophalen van de website.</string>
+    <string name="errorimage">Errorimage</string>
+    <string name="button_retry">Probeer opnieuw</string>
+    <string name="button_stacktrace">Toon oorzaak</string>
+    <string name="product_preview">product preview</string>
+    <string name="button_download_stop">Stop ophalen</string>
 </resources>

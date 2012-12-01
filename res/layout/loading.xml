@@ -33,12 +33,12 @@
 	        android:id="@+id/button1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Stop ophalen" />
+	        android:text="@string/button_download_stop" />
 		<Button
 	        android:id="@+id/button2"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Opnieuw proberen" />
+	        android:text="@string/button_retry" />
 	</LinearLayout>
 		
 </LinearLayout>	

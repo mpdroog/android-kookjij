@@ -50,11 +50,15 @@ public class RecipieFrame extends SherlockFragment {
 				
 				@Override
 				protected void onPostExecute(String result) {
-					final HomeFragment home = new HomeFragment(_recipie, _image);
-					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
-					action2.replace(R.id.contentFragment, home).commit();
-
-					// set text+ image
+					if(getException() == null) {
+						final HomeFragment home = new HomeFragment(_recipie, _image);
+						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
+						action2.replace(R.id.contentFragment, home).commit();
+					} else {
+						final ErrorFragment error = new ErrorFragment(getException());
+						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
+						action2.replace(R.id.contentFragment, error).commit();
+					}
 				}
 				
 				@Override
@@ -81,10 +85,8 @@ public class RecipieFrame extends SherlockFragment {
 			});
 		}
 		catch(Exception e) {
-			// Catch all exceptions, if this happens
-			// something went wrong while downloading and we can
-			// display this..
-			final ErrorFragment error = new ErrorFragment();
+			// Remove this?
+			final ErrorFragment error = new ErrorFragment(e);
 			final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 			action2.replace(R.id.contentFragment, error).commit();
 		}
