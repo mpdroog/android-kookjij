@@ -7,8 +7,8 @@ import java.util.zip.GZIPInputStream;
 import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.datastructures.pb.Recipie;
 import nl.rootdev.android.kookjijclient2.ui.fragments.ErrorFragment;
-import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.LoadingFragment;
+import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
 import nl.rootdev.android.kookjijclient2.ui.tasks.AsyncDownload;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -32,12 +32,10 @@ import com.dyuproject.protostuff.me.ProtostuffIOUtil;
  * 
  * @author mark
  */
-public class RecipieFrame extends SherlockFragment implements IConnectionHandle  {
+public class RecipieFrame extends SherlockFragment implements IConnectionHandle  {	
 	/** Reference in case we need to intervene (UI requests) */
 	private AsyncDownload _download;
-	/** If the last subview was the errorscreen */
-	private boolean _lastViewError;
-
+	
 	/**
 	 * Stop downloading the data from the web.
 	 */
@@ -51,10 +49,6 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 	 * the user can say stop and try again.
 	 */
 	public void retryDownload() {
-		if (_lastViewError) {
-			openLoading();
-			_lastViewError = false;
-		}
 		_download.cancel(true);
 		startAsyncDownload();
 	}
@@ -71,8 +65,13 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 		super.onDestroyView();
 	}
 	
+	@Override
+	public int getLoadingPercentage() {
+		return _download.getDownloadProgress();
+	}
+	
 	private void openLoading() {
-		final LoadingFragment loading = new LoadingFragment(this);
+		LoadingFragment loading = new LoadingFragment(this);
 		FragmentTransaction action = getFragmentManager().beginTransaction();
 		action.replace(R.id.contentFragment, loading).commit();
 	}
@@ -80,7 +79,7 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 	private void startAsyncDownload() {
 		openLoading();
 		final RecipieFrame that = this; /* This really feels like Javascript XD, async FTW */
-
+		
 		try {
 			_download = new AsyncDownload(getSherlockActivity().getCacheDir().toString()) {
 				private Recipie _recipie;
@@ -93,7 +92,6 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 						action2.replace(R.id.contentFragment, home).commit();
 					} else {
-						_lastViewError = true;
 						final ErrorFragment error = new ErrorFragment(that, getException());
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 						action2.replace(R.id.contentFragment, error).commit();
@@ -119,17 +117,16 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 			};
 			
 			_download.execute(new URL[] {
-				new URL("http://dev.android.kookjij.mobi/api.php?f=h"),
+				new URL("http://dev.android.kookjij.mobi/api.php?f=h&date=" + System.currentTimeMillis()),
 				new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=12")
 			});
 		}
 		catch(Exception e) {
-			// Remove this?
-			_lastViewError = true;
+			// TODO: Remove this?
 			final ErrorFragment error = new ErrorFragment(this, e);
 			final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 			action2.replace(R.id.contentFragment, error).commit();
-		}
+		}		
 	}
 	
 	@Override

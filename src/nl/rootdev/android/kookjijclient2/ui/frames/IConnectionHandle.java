@@ -19,4 +19,10 @@ public interface IConnectionHandle {
 	 * the current.
 	 */
 	public void retryDownload();
+	
+	/**
+	 * Get the amount of percentage loaded.
+	 * @return int Number from 0 to 100 indicating the percentual completeness.
+	 */
+	public int getLoadingPercentage();
 }

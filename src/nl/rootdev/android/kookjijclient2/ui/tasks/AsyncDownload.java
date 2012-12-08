@@ -48,9 +48,11 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 	 * @return
 	 */
 	public int getDownloadProgress() {
+		if (_textStream == null) {
+			return 0;
+		}
 		int percentage = _textStream.getProgress();
 		percentage += _imageStream != null ? _imageStream.getProgress() : 100;
-		
 		return percentage / 200 * 100;
 	}
 	
@@ -82,25 +84,18 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 		}
 		
 		try {
-			if (false) {
-				//throw new TimeoutException("Derp");
-			} else {
-				Thread.sleep(20000L);
-				throw new TimeoutException("Derp");
-
-				// Always read text
-				/*{
-					URLConnection link = params[0].openConnection();
-					_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
-					startTextDownload(_textStream);
-				}
-				
-				// Only image on speedy connection
-				if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
-					URLConnection img = params[1].openConnection();
-					_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
-					getImageDownload(BitmapFactory.decodeStream(_imageStream));
-				}*/
+			// Always read text
+			{
+				URLConnection link = params[0].openConnection();
+				_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
+				startTextDownload(_textStream);
+			}
+			
+			// Only image on speedy connection
+			if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
+				URLConnection img = params[1].openConnection();
+				_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
+				getImageDownload(BitmapFactory.decodeStream(_imageStream));
 			}
 		}
 		catch(Exception e) {

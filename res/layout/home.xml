@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:src="@drawable/logo_gray"
-            android:contentDescription="@string/product_preview"/>
+            android:contentDescription="@string/product_preview" />
 
         <LinearLayout
             android:layout_width="match_parent"
