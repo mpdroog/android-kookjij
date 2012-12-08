@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +58,7 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 		final ImageView preview = (ImageView) getSherlockActivity().findViewById(R.id.preview);
 		
 		title.setText(_recipie.getName());
-		text.setText(_recipie.getDescription());
+		text.setText(Html.fromHtml(_recipie.getDescription()), TextView.BufferType.SPANNABLE);
 		if (_image != null) {
 			preview.setImageBitmap(_image);
 		}
@@ -96,12 +97,6 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 				}
 			}
 			
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				//preview.setImageResource(R.drawable.);
-			}
-
 			@Override
 			protected Void doInBackground(Void... params) {
 				URLConnection img;
