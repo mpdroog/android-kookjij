@@ -17,4 +17,61 @@
     <string name="product_preview">product preview</string>
     <string name="button_download_stop">Stop ophalen</string>
     <string name="stopped_download">Downloaden geannuleerd</string>
+    <string name="recipie_picture">Recipie picture</string>
+    
+    <string-array name="categories">
+        <item>Bijgerechten</item>
+        <item>Dranken</item>
+        <item>Hapjes</item>
+        <item>Hoofdgerechten</item>
+        <item>Nagerechten</item>
+        <item>Sauzen en dressings</item>
+        <item>Soepen</item>
+        <item>Speciale gelegenheden</item>
+        <item>Voorgerechten</item>
+    </string-array>
+    
+    <string-array name="category0">
+        <item>Groenten</item>
+        <item>Salades</item>
+        <item>Vlees</item>
+    </string-array>
+    <string-array name="category1">
+        <item>Exotisch</item>
+        <item>Koud</item>
+        <item>Warm</item>
+    </string-array>
+    <string-array name="category2">
+        <item>Amuse</item>
+        <item>Koud</item>
+        <item>Warm</item>
+    </string-array>
+    <string-array name="category3">
+        <item>Gevogelte</item>
+        <item>Vegetarisch</item>
+        <item>Vis, schaal en scheldieren</item>
+        <item>Vlees</item>
+        <item>Wild</item>
+       </string-array>
+    <string-array name="category4">
+        <item>Koud</item>
+        <item>Warm</item>
+    </string-array>
+    <string-array name="category5">
+        <item>Koud</item>
+        <item>Warm</item>
+    </string-array>
+    <string-array name="category6">
+        <item>Koud</item>
+        <item>Groenten</item>
+        <item>Vis</item>
+        <item>Vlees</item>
+    </string-array>
+    <string-array name="category7">
+        <item>Kerst</item>
+    </string-array>
+    <string-array name="category8">
+        <item>Koud</item>
+        <item>Warm</item>
+    </string-array>
 </resources>

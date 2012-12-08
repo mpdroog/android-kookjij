@@ -3,17 +3,18 @@ package nl.rootdev.android.kookjijclient2;
 import nl.rootdev.android.kookjijclient2.ui.TabsAdapter;
 import nl.rootdev.android.kookjijclient2.ui.fixes.MenuItemSearchAction;
 import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
-import nl.rootdev.android.kookjijclient2.ui.fragments.CategoriesFragment;
-import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
-import nl.rootdev.android.kookjijclient2.ui.frames.RecipieFrame;
-import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
+import nl.rootdev.android.kookjijclient2.ui.fragments.GridFragment;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -21,36 +22,47 @@ import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
-public class Main extends SherlockFragmentActivity implements SearchPerformListener {
+public class CategoryMain extends SherlockFragmentActivity implements SearchPerformListener
+{
+	private final static boolean DEBUG = false;
 	private TabsAdapter tabAdapter;
 	private ViewPager pager;
-
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+    	super.onCreate(savedInstanceState);    	
+    	getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
     	
         ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayShowTitleEnabled(true);
         bar.setDisplayShowHomeEnabled(true);
-        AndroidUtilities.instantiate(this);
-		
+        bar.setDisplayHomeAsUpEnabled(true);
+        
+        bar.setTitle(getIntent().getExtras().getString("title"));
+
 		pager = new ViewPager(this);
 		pager.setId(R.id.normal);
 		tabAdapter = new TabsAdapter(this, pager);
-    	tabAdapter.addTab(bar.newTab().setText("Categorieen"), CategoriesFragment.class, null);
-		tabAdapter.addTab(bar.newTab().setText("Recept v/d Dag"), RecipieFrame.class, null, true);
-    	//tabAdapter.addTab(bar.newTab().setText("Column"), ColumnFragment.class, null);
-    	//tabAdapter.addTab(bar.newTab().setText("Favorieten"), FavoriteGridFragment.class, null);
+		String[] tabNames = getResources().getStringArray(getIntent().getExtras().getInt("categoryIndex"));
+		for(String tabName : tabNames) {
+	    	tabAdapter.addTab(bar.newTab().setText(tabName), GridFragment.class, null);
+		}
     	setContentView(pager);
+        
+        Intent intent = getIntent();
+        if(intent.ACTION_SEARCH.equals(intent.getAction())) {
+        	String query = intent.getStringExtra(SearchManager.QUERY);
+        	System.out.println(query);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	Context context = getSupportActionBar().getThemedContext();
-    	new MenuItemSearchAction(context, menu, this);
+    	new MenuItemSearchAction(context, menu, this); // not working??
         return true;
     }
 
@@ -93,9 +105,19 @@ public class Main extends SherlockFragmentActivity implements SearchPerformListe
 			
 		}
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 	@Override
 	public void performSearch(String query) {
-		throw new Error("Should not come here?");
-	}    
+		System.out.println(query);
+	}
 }
