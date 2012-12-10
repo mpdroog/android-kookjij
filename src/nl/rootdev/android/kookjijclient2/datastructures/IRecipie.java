@@ -16,4 +16,8 @@ public interface IRecipie {
 	public String getOrigin();
 	public Integer getServes();
 	public String getImage();
+	
+    public String getIngredients();
+	public String getComment();
+	public String getIntroduction();
 }

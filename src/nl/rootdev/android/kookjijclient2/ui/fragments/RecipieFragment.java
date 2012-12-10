@@ -53,12 +53,26 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		final TextView text = (TextView) getSherlockActivity().findViewById(R.id.editText2);
+		final TextView introduction = (TextView) getSherlockActivity().findViewById(R.id.introduction);
+		final TextView description = (TextView) getSherlockActivity().findViewById(R.id.description);
 		final TextView title = (TextView) getSherlockActivity().findViewById(R.id.title);
 		final ImageView preview = (ImageView) getSherlockActivity().findViewById(R.id.preview);
+		final TextView titleMeta = (TextView) getSherlockActivity().findViewById(R.id.title_meta);
 		
 		title.setText(_recipie.getName());
-		text.setText(Html.fromHtml(_recipie.getDescription()), TextView.BufferType.SPANNABLE);
+		introduction.setText(Html.fromHtml(_recipie.getIngredients()), TextView.BufferType.SPANNABLE);
+		description.setText(Html.fromHtml(_recipie.getDescription()), TextView.BufferType.SPANNABLE);
+		titleMeta.setText(Html.fromHtml(
+			"Personen: " + _recipie.getServes() +
+			"<br />Bereidingstijd: " + _recipie.getPreparationTime() + "minuten"
+		), TextView.BufferType.SPANNABLE);
+		
+		if (_recipie.getComment() != null) {
+			final TextView commentTitle = (TextView) getSherlockActivity().findViewById(R.id.comment_title);
+			final TextView comment = (TextView) getSherlockActivity().findViewById(R.id.comment);
+			commentTitle.setVisibility(View.VISIBLE);
+			comment.setText(Html.fromHtml(_recipie.getComment()), TextView.BufferType.SPANNABLE);
+		}
 		if (_image != null) {
 			preview.setImageBitmap(_image);
 		}
@@ -72,7 +86,7 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.home, container, false);
+		return inflater.inflate(R.layout.recipie, container, false);
 	}
 
 	/**

@@ -1,5 +1,8 @@
 package nl.rootdev.android.kookjijclient2.utils;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -74,6 +77,29 @@ public class AndroidUtilities {
 		else {
 			Toast.makeText(_activity, msg, Toast.LENGTH_LONG).show();
 		}
+	}
+	
+	/**
+	 * Get human-friendly date.
+	 * This is useful for the 'caching functionality', most HTTP-requests
+	 * are appended by this date so an aggresive caching mechanism can be
+	 * implementented.
+	 * @return String YYYY-mm-dd
+	 */
+	public String getDate() {
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(year);
+		builder.append('-');
+		builder.append(month);
+		builder.append('-');
+		builder.append(day);
+
+		return builder.toString();
 	}
 	
 	public static void instantiate(Activity activity) {
