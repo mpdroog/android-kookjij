@@ -3,8 +3,11 @@
     <string name="app_name">KookJij</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">Main</string>
+    <string name="title_activity_main">KookJij</string>
 
+    <string name="tab_category">Categorieën</string>
+    <string name="tab_recipie_day">Recept v/d dag</string>
+    
     <string name="menu_item_search_action_hint">Zoekterm</string>
     <string name="menu_item_search_action_menu_text">Search</string>    
 

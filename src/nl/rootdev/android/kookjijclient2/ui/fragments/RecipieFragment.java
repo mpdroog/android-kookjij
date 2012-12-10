@@ -115,7 +115,7 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 			protected Void doInBackground(Void... params) {
 				URLConnection img;
 				try {
-					img = new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=12").openConnection();
+					img = new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=h").openConnection();
 					_bitmap = BitmapFactory.decodeStream(img.getInputStream());
 
 				} catch (Exception e) {
