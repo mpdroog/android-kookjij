@@ -3,7 +3,8 @@
     <string name="app_name">KookJij</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">&#160;&#160;&#160;&#160;&#160;&#160;KookJij</string>
-
+    <string name="header">Header background</string>
+    
     <string name="tab_category">Categorieën</string>
     <string name="tab_recipie_day">Recept v/d dag</string>
     
@@ -20,6 +21,10 @@
     <string name="button_download_stop">Stop ophalen</string>
     <string name="stopped_download">Downloaden geannuleerd</string>
     <string name="recipie_picture">Recipie picture</string>
+
+    <string name="recipie_ingredients">Ingrediënten</string>
+    <string name="recipie_preparation">Bereiding</string>
+    <string name="recipie_comment">Opmerking</string>
     
     <string-array name="categories">
         <item>Bijgerechten</item>

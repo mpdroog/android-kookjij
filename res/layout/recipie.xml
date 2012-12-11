@@ -4,62 +4,60 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-        <FrameLayout
-        android:id="@+id/FrameLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+	<FrameLayout
+	android:id="@+id/FrameLayout1"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
 
         <ImageView 
+        android:contentDescription="@string/header"
         android:scaleType="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/recipie_header"
-        
-            />
+        android:src="@drawable/recipie_header" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-		
-        <ImageView
-            android:id="@+id/preview"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="1dp"
-            android:contentDescription="@string/product_preview"
-            android:src="@drawable/logo_gray" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:textStyle="bold" />
-
-            <RatingBar
-                android:id="@+id/ratingBar1"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxHeight="47dip"
-                android:minHeight="17dip"
-                android:rating="2" />
-            
-            <TextView
-                android:id="@+id/title_meta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14dp" />
-        </LinearLayout>
-    </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal">
+			
+	        <ImageView
+	            android:id="@+id/preview"
+	            android:layout_width="wrap_content"
+	            android:layout_height="70dp"
+	            android:layout_marginTop="1dp"
+	            android:layout_marginLeft="1dp"
+	            android:contentDescription="@string/product_preview"
+	            android:src="@drawable/logo_gray" />
+	
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:orientation="vertical" >
+	
+	            <TextView
+	                android:id="@+id/title"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:textSize="14dp"
+	                android:textStyle="bold" />
+	
+	            <RatingBar
+	                android:id="@+id/ratingBar1"
+	                style="?android:attr/ratingBarStyleSmall"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:maxHeight="47dip"
+	                android:minHeight="17dip"
+	                android:rating="2" />
+	            
+	            <TextView
+	                android:id="@+id/title_meta"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:textSize="14dp" />
+	        </LinearLayout>
+	    </LinearLayout>
     </FrameLayout>
 
     <ScrollView
@@ -75,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ingrediënten" />
+                android:text="@string/recipie_ingredients" />
 
             <TextView
                 android:id="@+id/introduction"
@@ -90,7 +88,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bereiding" />
+                android:text="@string/recipie_preparation" />
 
             <TextView
                 android:id="@+id/description"
@@ -106,7 +104,7 @@
                 android:id="@+id/comment_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Opmerking"
+                android:text="@string/recipie_comment"
                 android:visibility="invisible" />
 
             <TextView

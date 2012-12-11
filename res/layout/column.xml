@@ -4,16 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <AbsoluteLayout
+    <FrameLayout
+    android:id="@+id/FrameLayout1"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
-	        
-	    <ImageView
-	        android:scaleType="center"
-	        android:layout_width="match_parent"
-	        android:layout_height="50dp"
-	     android:src="@drawable/column_header"            
-	        />    
+    android:layout_height="wrap_content">
+
+        <ImageView 
+        android:contentDescription="@string/header"
+        android:scaleType="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/column_header" />
+        
 	    <TextView
 	        android:id="@+id/column_title"
 	        android:layout_width="wrap_content"
@@ -26,7 +28,8 @@
 	        android:paddingLeft="5dp"
 	        >
 	    </TextView>
-    </AbsoluteLayout>    
+    </FrameLayout>
+        
     <ScrollView
         android:id="@+id/scrollColumnText"
         android:layout_width="match_parent"
