@@ -5,13 +5,15 @@ package nl.rootdev.android.kookjijclient2.datastructures.pb;
 
 import java.io.IOException;
 
+import nl.rootdev.android.kookjijclient2.datastructures.IColumn;
+
 import com.dyuproject.protostuff.me.Input;
 import com.dyuproject.protostuff.me.Message;
 import com.dyuproject.protostuff.me.Output;
 import com.dyuproject.protostuff.me.Schema;
 import com.dyuproject.protostuff.me.UninitializedMessageException;
 
-public final class Column implements Message, Schema
+public final class Column implements Message, Schema, IColumn
 {
 
     public static Schema getSchema()
