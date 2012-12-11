@@ -89,7 +89,7 @@ public class AndroidUtilities {
 	public String getDate() {
 		Calendar calendar = Calendar.getInstance();
 		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
+		int month = calendar.get(Calendar.MONTH) +1; /* Jan=0 in Java */
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		
 		StringBuilder builder = new StringBuilder();
