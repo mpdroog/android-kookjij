@@ -79,9 +79,6 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 
 	protected String doInBackground(URL... params) {
 		ConnectionTypes connection = AndroidUtilities.getInstance().getConnectionSpeed();
-		if (params.length != 2) {
-			throw new UnsupportedOperationException("Invalid argument count..");
-		}
 		
 		try {
 			// Always read text
@@ -90,12 +87,14 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 				_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
 				startTextDownload(_textStream);
 			}
-			
-			// Only image on speedy connection
-			if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
-				URLConnection img = params[1].openConnection();
-				_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
-				getImageDownload(BitmapFactory.decodeStream(_imageStream));
+
+			if (params.length == 2) {
+				// Only image on speedy connection
+				if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
+					URLConnection img = params[1].openConnection();
+					_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
+					getImageDownload(BitmapFactory.decodeStream(_imageStream));
+				}
 			}
 		}
 		catch(Exception e) {
