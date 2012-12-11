@@ -7,7 +7,6 @@ import java.util.zip.GZIPInputStream;
 
 import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.datastructures.pb.Column;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -25,7 +24,7 @@ public class ColumnFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(false);
 	}
-
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -68,6 +67,8 @@ public class ColumnFragment extends SherlockFragment {
 			protected Void doInBackground(Void... params) {
 				try {
 					enableHttpResponseCache();
+					System.out.println("Column  ");
+
 					// Always read text
 					{
 						URLConnection link = new URL("http://dev.android.kookjij.mobi/api.php?f=a").openConnection();

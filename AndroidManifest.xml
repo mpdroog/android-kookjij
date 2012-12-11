@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:hardwareAccelerated="true"
-        android:theme="@style/Theme.Sherlock">
+        android:theme="@style/Christmas">
         <activity
             android:name=".Main"
             android:label="@string/title_activity_main" >

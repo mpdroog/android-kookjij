@@ -5,7 +5,6 @@ import nl.rootdev.android.kookjijclient2.ui.fixes.MenuItemSearchAction;
 import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
 import nl.rootdev.android.kookjijclient2.ui.fragments.CategoriesFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.ColumnFragment;
-import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
 import nl.rootdev.android.kookjijclient2.ui.frames.RecipieFrame;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Context;
@@ -14,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.Window;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -30,7 +28,8 @@ public class Main extends SherlockFragmentActivity implements SearchPerformListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+    	//getWindow().setBackgroundDrawableResource(R.drawable.christmas);
+//		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     	
         ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

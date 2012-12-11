@@ -1,5 +1,24 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Christmas" parent="Theme.Sherlock.Light">
+        <!-- Christmas background + colors -->
+	    <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
+	    <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+	    <!-- End Christmas background + colors -->
+    </style>
+    
+    <!-- Christmas background + colors -->
+    <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar">
+        <item name="titleTextStyle">@style/Widget.Styled.ActionBar.TitleTextStyle</item>
+        <item name="android:titleTextStyle">@style/Widget.Styled.ActionBar.TitleTextStyle</item>
 
-    <style name="AppTheme" parent="android:Theme.Light" />
+     	<item name="background">@drawable/christmas</item>
+	    <item name="android:background">@drawable/christmas</item>
+	</style>
+	
+    <style name="Widget.Styled.ActionBar.TitleTextStyle" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
+       	<item name="android:textColor">@color/tab_indicator_text</item>
+	</style>
 
+    <color name="tab_indicator_text">#FFFFFF</color>
+    <!-- End christmas background + colors -->
 </resources>
