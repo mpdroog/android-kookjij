@@ -5,7 +5,10 @@ import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
 import nl.rootdev.android.kookjijclient2.R;
+import nl.rootdev.android.kookjijclient2.datastructures.IColumn;
+import nl.rootdev.android.kookjijclient2.datastructures.pb.Column;
 import nl.rootdev.android.kookjijclient2.datastructures.pb.Recipie;
+import nl.rootdev.android.kookjijclient2.ui.fragments.ColumnFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.ErrorFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.LoadingFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
@@ -26,14 +29,14 @@ import com.dyuproject.protostuff.me.ProtostuffIOUtil;
  * coordinating the download and showing fragments based
  * on it's results.
  * 
- * It simply tries to download a Recipie.
+ * It simply tries to download a Column.
  * - During downloading show the LoadingFragment
  * - In case of an 'Error' open up the ErrorFragment
  * - In case of success open the HomeFragment
  * 
  * @author mark
  */
-public class RecipieFrame extends SherlockFragment implements IConnectionHandle  {	
+public class ColumnFrame extends SherlockFragment implements IConnectionHandle  {	
 	/** Reference in case we need to intervene (UI requests) */
 	private AsyncDownload _download;
 	
@@ -74,37 +77,36 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 	private void openLoading() {
 		LoadingFragment loading = new LoadingFragment(this);
 		FragmentTransaction action = getFragmentManager().beginTransaction();
-		action.replace(R.id.recipieFragment, loading).commit();
+		action.replace(R.id.columnFragment, loading).commit();
 	}
 	
 	private void startAsyncDownload() {
 		openLoading();
-		final RecipieFrame that = this; /* This really feels like Javascript XD, async FTW */
+		final ColumnFrame that = this; /* This really feels like Javascript XD, async FTW */
 		
 		try {
 			_download = new AsyncDownload(getSherlockActivity().getCacheDir().toString()) {
-				private Recipie _recipie;
-				private Bitmap _image;
+				private IColumn _column;
 				
 				@Override
 				protected void onPostExecute(String result) {
 					if(getException() == null) {
-						final RecipieFragment home = new RecipieFragment(_recipie, _image);
+						final ColumnFragment home = new ColumnFragment(_column);
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
-						action2.replace(R.id.recipieFragment, home).commit();
+						action2.replace(R.id.columnFragment, home).commit();
 					} else {
 						final ErrorFragment error = new ErrorFragment(that, getException());
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
-						action2.replace(R.id.recipieFragment, error).commit();
+						action2.replace(R.id.columnFragment, error).commit();
 					}
 				}
 				
 				@Override
 				protected void startTextDownload(InputStream link) {
 					try {
-						_recipie = new Recipie();
-						ProtostuffIOUtil.mergeFrom(new GZIPInputStream(link), _recipie,
-								Recipie.getSchema());
+						_column = new Column();
+						ProtostuffIOUtil.mergeFrom(new GZIPInputStream(link), _column,
+								Column.getSchema());
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
@@ -113,23 +115,21 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 				
 				@Override
 				protected void getImageDownload(Bitmap image) {
-					_image = image;
 				}
 			};
 			
 			_download.execute(new URL[] {
-				new URL("http://dev.android.kookjij.mobi/api.php?f=h&date=" + AndroidUtilities.getInstance().getDate()),
-				new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=h&date=" + AndroidUtilities.getInstance().getDate())
+				new URL("http://dev.android.kookjij.mobi/api.php?f=a&date=" + AndroidUtilities.getInstance().getDate())
 			});
 		}
 		catch(Exception e) {
 			// TODO: Remove this?
 			final ErrorFragment error = new ErrorFragment(this, e);
 			final FragmentTransaction action2 = getFragmentManager().beginTransaction();
-			action2.replace(R.id.recipieFragment, error).commit();
+			action2.replace(R.id.columnFragment, error).commit();
 		}		
 	}
-		
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -139,6 +139,6 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.recipiefragment, container, false);
+		return inflater.inflate(R.layout.columnfragment, container, false);
 	}
 }
