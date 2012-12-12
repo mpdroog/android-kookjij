@@ -5,6 +5,7 @@ import nl.rootdev.android.kookjijclient2.ui.fixes.MenuItemSearchAction;
 import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
 import nl.rootdev.android.kookjijclient2.ui.fragments.GridFragment;
 import nl.rootdev.android.kookjijclient2.ui.frames.CategoryFrame;
+import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);    	
     	getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
+        AndroidUtilities.instantiate(this);
     	
         ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

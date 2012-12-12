@@ -20,12 +20,12 @@ public class RecipieActivity extends SherlockFragmentActivity implements SearchP
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
+        AndroidUtilities.instantiate(this);
     	
         ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayShowTitleEnabled(true);
         bar.setDisplayShowHomeEnabled(true);
-        AndroidUtilities.instantiate(this);
 
         // Add recipie index
         Bundle bundle = new Bundle();

@@ -89,6 +89,7 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 			}
 
 			if (params.length == 2) {
+				System.out.println("We got 2");
 				// Only image on speedy connection
 				if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
 					URLConnection img = params[1].openConnection();

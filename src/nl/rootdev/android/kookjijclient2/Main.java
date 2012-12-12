@@ -30,12 +30,12 @@ public class Main extends SherlockFragmentActivity implements SearchPerformListe
     	super.onCreate(savedInstanceState);
     	//getWindow().setBackgroundDrawableResource(R.drawable.christmas);
 //		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        AndroidUtilities.instantiate(this);
     	
         ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayShowTitleEnabled(true);
         bar.setDisplayShowHomeEnabled(true);
-        AndroidUtilities.instantiate(this);
 		
 		pager = new ViewPager(this);
 		pager.setId(R.id.normal);
