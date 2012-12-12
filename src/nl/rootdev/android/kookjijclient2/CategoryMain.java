@@ -3,25 +3,15 @@ package nl.rootdev.android.kookjijclient2;
 import nl.rootdev.android.kookjijclient2.ui.TabsAdapter;
 import nl.rootdev.android.kookjijclient2.ui.fixes.MenuItemSearchAction;
 import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
-import nl.rootdev.android.kookjijclient2.ui.fragments.GridFragment;
 import nl.rootdev.android.kookjijclient2.ui.frames.CategoryFrame;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -35,7 +25,6 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);    	
-    	getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
         AndroidUtilities.instantiate(this);
     	
         ActionBar bar = getSupportActionBar();

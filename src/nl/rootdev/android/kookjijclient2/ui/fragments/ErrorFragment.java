@@ -1,10 +1,6 @@
 package nl.rootdev.android.kookjijclient2.ui.fragments;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import nl.rootdev.android.kookjijclient2.R;
-import nl.rootdev.android.kookjijclient2.ui.frames.IConnectionHandle;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

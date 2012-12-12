@@ -77,7 +77,6 @@ public class RecipieFrame extends AbstractLoadingFrame  {
 				new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=h&date=" + AndroidUtilities.getInstance().getDate())
 			});
 		} else {
-			System.out.println("http://dev.android.kookjij.mobi/api.php?f=p&i=" + index + "&date=" + AndroidUtilities.getInstance().getDate());
 			_download.execute(new URL[] {
 				new URL("http://dev.android.kookjij.mobi/api.php?f=h&i=" + index + "&date=" + AndroidUtilities.getInstance().getDate()),
 				new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=" + index + "&date=" + AndroidUtilities.getInstance().getDate())

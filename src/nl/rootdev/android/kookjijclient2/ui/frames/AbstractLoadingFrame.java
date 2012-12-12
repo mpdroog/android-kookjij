@@ -2,7 +2,6 @@ package nl.rootdev.android.kookjijclient2.ui.frames;
 
 import java.net.MalformedURLException;
 
-import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.ui.fragments.ErrorFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.LoadingFragment;
 import nl.rootdev.android.kookjijclient2.ui.tasks.AsyncDownload;
