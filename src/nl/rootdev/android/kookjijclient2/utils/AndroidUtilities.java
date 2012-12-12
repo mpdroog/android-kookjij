@@ -109,4 +109,21 @@ public class AndroidUtilities {
 	public static AndroidUtilities getInstance() {
 		return _instance;
 	}
+
+	public String getDate(Long lastedit) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(lastedit * 1000L);
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) +1; /* Jan=0 in Java */
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(year);
+		builder.append('-');
+		builder.append(month);
+		builder.append('-');
+		builder.append(day);
+
+		return builder.toString();
+	}
 }

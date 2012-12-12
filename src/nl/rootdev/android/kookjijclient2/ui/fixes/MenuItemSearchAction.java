@@ -114,7 +114,6 @@ public class MenuItemSearchAction extends EditText {
 				MenuItemSearchAction.this.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                    	System.out.println("Delayes hide?");
         				InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         				imm.hideSoftInputFromWindow(MenuItemSearchAction.this.getWindowToken(), 0);
                     }

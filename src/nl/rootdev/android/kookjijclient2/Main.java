@@ -49,7 +49,10 @@ public class Main extends SherlockFragmentActivity implements SearchPerformListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
     	Context context = getSupportActionBar().getThemedContext();
+    	//MenuItem item = menu.add(0,4,0,"H");
+    	//item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
     	new MenuItemSearchAction(context, menu, this);
         return true;
     }

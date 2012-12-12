@@ -58,12 +58,17 @@ public class LoadingFragment extends SherlockFragment
 
 			int currentPercentage = _handle.getLoadingPercentage();
 			System.out.println("Loading " + currentPercentage + "%");
-			if(currentPercentage - _lastPercentage >= 10) {
-				// Normal speed
-				percentage.setText(currentPercentage + "%");
+			if(percentage == null) {
+				// TODO: Investigate why NULL?
+				System.out.println("Percentage is NULL? Bug?");
 			} else {
-				// SLOOOOW, 3sec and less than 10 percent
-				percentage.setText(currentPercentage + "%");
+				if(currentPercentage - _lastPercentage >= 10) {
+					// Normal speed
+					percentage.setText(currentPercentage + "%");
+				} else {
+					// SLOOOOW, 3sec and less than 10 percent
+					percentage.setText(currentPercentage + "%");
+				}
 			}
 			_lastPercentage = currentPercentage;
 			_timer.postDelayed(this, DOWNLOAD_INTERVAL_CHECK);

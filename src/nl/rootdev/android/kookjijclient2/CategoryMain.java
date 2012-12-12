@@ -4,6 +4,7 @@ import nl.rootdev.android.kookjijclient2.ui.TabsAdapter;
 import nl.rootdev.android.kookjijclient2.ui.fixes.MenuItemSearchAction;
 import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
 import nl.rootdev.android.kookjijclient2.ui.fragments.GridFragment;
+import nl.rootdev.android.kookjijclient2.ui.frames.CategoryFrame;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +27,6 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class CategoryMain extends SherlockFragmentActivity implements SearchPerformListener
 {
-	private final static boolean DEBUG = false;
 	private TabsAdapter tabAdapter;
 	private ViewPager pager;
 	
@@ -48,7 +48,7 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
 		tabAdapter = new TabsAdapter(this, pager);
 		String[] tabNames = getResources().getStringArray(getIntent().getExtras().getInt("categoryIndex"));
 		for(String tabName : tabNames) {
-	    	tabAdapter.addTab(bar.newTab().setText(tabName), GridFragment.class, null);
+	    	tabAdapter.addTab(bar.newTab().setText(tabName), CategoryFrame.class, null);
 		}
     	setContentView(pager);
         
