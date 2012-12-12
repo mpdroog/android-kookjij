@@ -7,6 +7,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.List;
 
 import nl.rootdev.android.kookjijclient2.datastructures.ICategory;
 
@@ -37,7 +39,7 @@ public final class Category implements Externalizable, Message<Category>, ICateg
     // see http://developer.android.com/guide/practices/design/performance.html#package_inner
     Integer setCurpage;
     Integer setResultpages;
-    String items;
+    List<CategoryItem> items;
 
     public Category()
     {
@@ -81,12 +83,12 @@ public final class Category implements Externalizable, Message<Category>, ICateg
 
     // items
 
-    public String getItems()
+    public List<CategoryItem> getItemsList()
     {
         return items;
     }
 
-    public void setItems(String items)
+    public void setItemsList(List<CategoryItem> items)
     {
         this.items = items;
     }
@@ -156,8 +158,11 @@ public final class Category implements Externalizable, Message<Category>, ICateg
                         message.setResultpages = input.readUInt32();
                         break;
                     case 3:
-                        message.items = input.readString();
+                        if(message.items == null)
+                            message.items = new ArrayList<CategoryItem>();
+                        message.items.add(input.mergeObject(null, CategoryItem.getSchema()));
                         break;
+
                     default:
                         input.handleUnknownField(number, this);
                 }   
@@ -176,7 +181,14 @@ public final class Category implements Externalizable, Message<Category>, ICateg
             output.writeUInt32(2, message.setResultpages, false);
 
             if(message.items != null)
-                output.writeString(3, message.items, false);
+            {
+                for(CategoryItem items : message.items)
+                {
+                    if(items != null)
+                        output.writeObject(3, items, CategoryItem.getSchema(), true);
+                }
+            }
+
         }
 
         public String getFieldName(int number)

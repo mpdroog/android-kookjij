@@ -46,29 +46,11 @@ public class GridFragment extends SherlockFragment {
 		GridView view = (GridView) inflater.inflate(R.layout.grid, container, false);
 		ListImageTextAdapter listItems = new ListImageTextAdapter();
 		
-		try {
-			if (_category.getItems() != null) {
-				JSONArray items = new JSONArray(_category.getItems());
-				for(int i = 0; i < items.length(); i++) {
-					JSONObject item = items.getJSONObject(i);
-					listItems.addImageText(
-						0, item.getString("name"),
-						AndroidUtilities.getInstance().getDate(item.getLong("lastEdit"))
-					);
-				}
-			}
-		}
-		catch(Exception e) {
-			// TODO: What to do?
-		}
-		/*if (_category.getItemsList() != null) {
+		if (_category.getItemsList() != null) {
 			for (ICategoryItem category : _category.getItemsList()) {
-				items.addImageText(0,  category.getName(), AndroidUtilities.getInstance().getDate(category.getLastedit()));
+				listItems.addImageText(0,  category.getName(), AndroidUtilities.getInstance().getDate(category.getLastedit()));
 			}
-		}*/
-/*		items.addImageText(0, "Fried chicken american style", "12 Feb 2012");
-		items.addImageText(0, "Pinda-kokossoep", "12 Feb 2012");
-		items.addImageText(0, "Tiramisu", "12 Feb 2012");*/
+		}
 		view.setAdapter(listItems);
 		return view;
 	}	

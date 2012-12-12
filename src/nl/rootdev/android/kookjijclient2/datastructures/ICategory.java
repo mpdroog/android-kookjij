@@ -1,9 +1,11 @@
 package nl.rootdev.android.kookjijclient2.datastructures;
 
-import java.util.Vector;
+import java.util.List;
+
+import nl.rootdev.android.kookjijclient2.datastructures.pb.CategoryItem;
 
 public interface ICategory {
-	public String getItems();
+	public List<CategoryItem> getItemsList();
     public Integer getSetCurpage();
     public Integer getSetResultpages();	
 }
