@@ -65,11 +65,11 @@ public class ProgressInputStream extends FilterInputStream {
 
 	@Override
 	public synchronized void reset() throws IOException {
-		throw new UnsupportedOperationException("Mark not supported in ProgressInputStream");
+		super.reset();
 	}
 
 	@Override
 	public long skip(long byteCount) throws IOException {
-		throw new UnsupportedOperationException("Skip not supported in ProgressInputStream");
+		return super.skip(byteCount);
 	}
 }

@@ -56,7 +56,7 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 	 */
 	public void retryDownload() {
 		_download.cancel(true);
-		startAsyncDownload();
+		startAsyncDownload(getArguments());
 	}
 	
 	@Override
@@ -82,10 +82,8 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 		action.replace(R.id.recipieFragment, loading).commit();
 	}
 	
-	private void startAsyncDownload() {
-		openLoading();
-		final RecipieFrame that = this; /* This really feels like Javascript XD, async FTW */
-		
+	private void startAsyncDownload(Bundle savedInstanceState) {
+		openLoading();		
 		try {
 			_download = new AsyncDownload(getSherlockActivity().getCacheDir().toString()) {
 				private Recipie _recipie;
@@ -129,10 +127,23 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 				}
 			};
 			
-			_download.execute(new URL[] {
-				new URL("http://dev.android.kookjij.mobi/api.php?f=h&date=" + AndroidUtilities.getInstance().getDate()),
-				new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=h&date=" + AndroidUtilities.getInstance().getDate())
-			});
+			long index = 0;
+			if (getArguments() != null) {
+				index = getArguments().getLong("index");
+			}
+			// TODO: Remove this crap
+			if (index == 0L) {
+				// No index, get recipie of the day
+				_download.execute(new URL[] {
+					new URL("http://dev.android.kookjij.mobi/api.php?f=h&date=" + AndroidUtilities.getInstance().getDate()),
+					new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=h&date=" + AndroidUtilities.getInstance().getDate())
+				});
+			} else {
+				_download.execute(new URL[] {
+					new URL("http://dev.android.kookjij.mobi/api.php?f=h&i=" + index + "&date=" + AndroidUtilities.getInstance().getDate()),
+					new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=" + index + "&date=" + AndroidUtilities.getInstance().getDate())
+				});
+			}
 		}
 		catch(Exception e) {
 			// TODO: Remove this?
@@ -150,7 +161,7 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		startAsyncDownload();
+		startAsyncDownload(savedInstanceState);
 	}
 	
 	@Override

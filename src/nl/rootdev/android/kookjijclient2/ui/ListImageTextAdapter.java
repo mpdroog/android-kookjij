@@ -26,8 +26,8 @@ public class ListImageTextAdapter extends BaseAdapter {
 		items_ = new ArrayList<ImageTextTuple>();
 	}
 	
-	public void addImageText(int imageResId, String text, String smallText) {
-		items_.add(new ImageTextTuple(imageResId, text, smallText));
+	public void addImageText(ImageTextTuple tuple) {
+		items_.add(tuple);
 	}
 	
 	@Override

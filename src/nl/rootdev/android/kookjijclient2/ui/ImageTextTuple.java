@@ -5,11 +5,13 @@ public class ImageTextTuple {
 	private String text_;
 	private String smallText_;
 	private int imageResId_;
+	private long recipieIndex_;
 	
-	public ImageTextTuple(int imageResId, String text, String smallText) {
+	public ImageTextTuple(int imageResId, String text, String smallText, long recipieIndex) {
 		imageResId_ = imageResId;
 		text_ = text;
 		smallText_ = smallText;
+		recipieIndex_ = recipieIndex;
 	}
 	
 	public String getText_() {
@@ -31,7 +33,15 @@ public class ImageTextTuple {
 		return smallText_;
 	}
 
-	public void setSmallText(String smallText_) {
-		this.smallText_ = smallText_;
+	public void setSmallText(String smallText) {
+		smallText_ = smallText;
+	}
+
+	public long getRecipieIndex() {
+		return recipieIndex_;
+	}
+
+	public void setRecipieIndex(long recipieIndex) {
+		recipieIndex_ = recipieIndex;
 	}
 }
