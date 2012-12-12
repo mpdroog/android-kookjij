@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.io.PushbackInputStream;
 import java.io.StringWriter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.zip.GZIPInputStream;
 
 import android.app.Activity;
@@ -25,6 +24,8 @@ import android.widget.Toast;
  */
 public class AndroidUtilities {
 	private Activity _activity;
+	private int _uniqueCounter = 100;
+	
 	private static AndroidUtilities _instance;
 		
 	private AndroidUtilities(Activity activity) {
@@ -168,5 +169,11 @@ public class AndroidUtilities {
 			output = pb;
 		}
 		return output;
+	}
+	
+	public synchronized int getUniqueNumber()
+	{
+		_uniqueCounter++;
+		return _uniqueCounter;
 	}
 }
