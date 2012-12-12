@@ -1,6 +1,7 @@
 package nl.rootdev.android.kookjijclient2.ui.frames;
 
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
@@ -111,6 +112,7 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 				@Override
 				protected void startTextDownload(InputStream link) {
 					try {
+						link = AndroidUtilities.getInstance().encapsulateGZipOnNeed(link);
 						_recipie = new Recipie();
 						Schema<Recipie> schema = RuntimeSchema.getSchema(Recipie.class);
 						ProtobufIOUtil.mergeFrom(link, (Recipie)_recipie, schema);

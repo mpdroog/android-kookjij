@@ -1,6 +1,7 @@
 package nl.rootdev.android.kookjijclient2.ui.frames;
 
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
@@ -109,6 +110,7 @@ public class CategoryFrame extends SherlockFragment implements IConnectionHandle
 				@Override
 				protected void startTextDownload(InputStream link) {
 					try {
+						link = AndroidUtilities.getInstance().encapsulateGZipOnNeed(link);
 						_category = new Category();
 						Schema<Category> schema = RuntimeSchema.getSchema(Category.class);
 						ProtobufIOUtil.mergeFrom(link, (Category)_category, schema);

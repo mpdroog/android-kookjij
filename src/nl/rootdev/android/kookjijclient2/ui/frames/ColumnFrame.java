@@ -1,6 +1,7 @@
 package nl.rootdev.android.kookjijclient2.ui.frames;
 
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
@@ -109,6 +110,7 @@ public class ColumnFrame extends SherlockFragment implements IConnectionHandle  
 				@Override
 				protected void startTextDownload(InputStream link) {
 					try {
+						link = AndroidUtilities.getInstance().encapsulateGZipOnNeed(link);
 						_column = new Column();
 						Schema<Column> schema = RuntimeSchema.getSchema(Column.class);
 						ProtobufIOUtil.mergeFrom(link, (Column)_column, schema);

@@ -1,9 +1,13 @@
 package nl.rootdev.android.kookjijclient2.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.PushbackInputStream;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.zip.GZIPInputStream;
 
 import android.app.Activity;
 import android.content.Context;
@@ -134,5 +138,33 @@ public class AndroidUtilities {
 		final PrintWriter writer = new PrintWriter(str);
 		e.printStackTrace(writer);
 		return str.toString();
+	}
+	
+	/**
+	 * Add GZipInputStream when GZIP Magic numbers are read.
+	 * 
+	 * Seems like an Android-dev found it needed to add 'auto' GZIP to Android 2.3+ on HTTP.
+	 * So check if GZIP wrapping is needed and apply where required.
+	 * 
+	 * @see http://stackoverflow.com/questions/5131016/gzipinputstream-fails-with-ioexception-in-android-2-3-but-works-fine-in-all-pre					
+	 * @see http://stackoverflow.com/questions/4818468/how-to-check-if-inputstream-is-gzipped
+	 * @param input
+	 * @return
+	 * @throws IOException
+	 */
+	public InputStream encapsulateGZipOnNeed(InputStream input) throws IOException
+	{
+		InputStream output = input;
+		byte[] magic = new byte[2];
+		
+		PushbackInputStream pb = new PushbackInputStream(input,2);
+		pb.read(magic, 0, 2);
+		pb.unread(magic);
+		
+		if(magic[0] == (byte) 0x1f && magic[1] == (byte) 0x8b) {
+			/* GZIP is added round PushBackInputStream else we'll miss 2 bytes */
+			output = new GZIPInputStream(pb);
+		}
+		return output;
 	}
 }
