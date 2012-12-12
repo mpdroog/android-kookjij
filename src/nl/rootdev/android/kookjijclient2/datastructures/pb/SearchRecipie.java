@@ -3,22 +3,27 @@
 
 package nl.rootdev.android.kookjijclient2.datastructures.pb;
 
+import java.io.Externalizable;
 import java.io.IOException;
-import java.util.Vector;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.List;
 
 import nl.rootdev.android.kookjijclient2.datastructures.ISearchRecipie;
 
-import com.dyuproject.protostuff.me.Input;
-import com.dyuproject.protostuff.me.Message;
-import com.dyuproject.protostuff.me.Output;
-import com.dyuproject.protostuff.me.Schema;
+import com.dyuproject.protostuff.GraphIOUtil;
+import com.dyuproject.protostuff.Input;
+import com.dyuproject.protostuff.Message;
+import com.dyuproject.protostuff.Output;
+import com.dyuproject.protostuff.Schema;
 
-public final class SearchRecipie implements Message, Schema, ISearchRecipie
+public final class SearchRecipie implements Externalizable, Message<SearchRecipie>, ISearchRecipie
 {
 
-    public static Schema getSchema()
+    public static Schema<SearchRecipie> getSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
     public static SearchRecipie getDefaultInstance()
@@ -29,8 +34,10 @@ public final class SearchRecipie implements Message, Schema, ISearchRecipie
     static final SearchRecipie DEFAULT_INSTANCE = new SearchRecipie();
 
     
-    private Integer setResultpages;
-    private Vector recipies;
+    // non-private fields
+    // see http://developer.android.com/guide/practices/design/performance.html#package_inner
+    Integer setResultpages;
+    List<Recipie> recipies;
 
     public SearchRecipie()
     {
@@ -53,115 +60,125 @@ public final class SearchRecipie implements Message, Schema, ISearchRecipie
 
     // recipies
 
-    public Vector getRecipiesList()
+    public List<Recipie> getRecipiesList()
     {
         return recipies;
     }
 
-    public void setRecipiesList(Vector recipies)
+    public void setRecipiesList(List<Recipie> recipies)
     {
         this.recipies = recipies;
     }
 
+    // java serialization
+
+    public void readExternal(ObjectInput in) throws IOException
+    {
+        GraphIOUtil.mergeDelimitedFrom(in, this, SCHEMA);
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException
+    {
+        GraphIOUtil.writeDelimitedTo(out, this, SCHEMA);
+    }
+
     // message method
 
-    public Schema cachedSchema()
+    public Schema<SearchRecipie> cachedSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
-    // schema methods
-
-    public Object /*SearchRecipie*/ newMessage()
+    static final Schema<SearchRecipie> SCHEMA = new Schema<SearchRecipie>()
     {
-        return new SearchRecipie();
-    }
+        // schema methods
 
-    public Class typeClass()
-    {
-        return SearchRecipie.class;
-    }
-
-    public String messageName()
-    {
-        return "SearchRecipie";
-    }
-
-    public String messageFullName()
-    {
-        return SearchRecipie.class.getName();
-    }
-
-    public boolean isInitialized(Object /*SearchRecipie*/ message)
-    {
-        return true;
-    }
-
-    public void mergeFrom(Input input, Object /*SearchRecipie*/ messageObj) throws IOException
-    {
-        SearchRecipie message = (SearchRecipie)messageObj;
-        for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
+        public SearchRecipie newMessage()
         {
-            switch(number)
-            {
-                case 0:
-                    return;
-                case 1:
-                    message.setResultpages = new Integer(input.readUInt32());
-                    break;
-                case 2:
-                    if(message.recipies == null)
-                        message.recipies = new Vector();
-                    message.recipies.addElement(input.mergeObject(null, Recipie.getSchema()));
-                    break;
-
-                default:
-                    input.handleUnknownField(number, this);
-            }   
+            return new SearchRecipie();
         }
-    }
 
-
-
-    public void writeTo(Output output, Object /*SearchRecipie*/ messageObj) throws IOException
-    {
-        SearchRecipie message = (SearchRecipie)messageObj;
-        if(message.setResultpages != null)
-            output.writeUInt32(1, message.setResultpages.intValue(), false);
-
-        if(message.recipies != null)
+        public Class<SearchRecipie> typeClass()
         {
-            for(int i = 0; i < message.recipies.size(); i++)
+            return SearchRecipie.class;
+        }
+
+        public String messageName()
+        {
+            return SearchRecipie.class.getSimpleName();
+        }
+
+        public String messageFullName()
+        {
+            return SearchRecipie.class.getName();
+        }
+
+        public boolean isInitialized(SearchRecipie message)
+        {
+            return true;
+        }
+
+        public void mergeFrom(Input input, SearchRecipie message) throws IOException
+        {
+            for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
             {
-                Recipie recipies = (Recipie)message.recipies.elementAt(i);
-                if(recipies != null)
-                    output.writeObject(2, recipies, Recipie.getSchema(), true);
+                switch(number)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        message.setResultpages = input.readUInt32();
+                        break;
+                    case 2:
+                        if(message.recipies == null)
+                            message.recipies = new ArrayList<Recipie>();
+                        message.recipies.add(input.mergeObject(null, Recipie.getSchema()));
+                        break;
+
+                    default:
+                        input.handleUnknownField(number, this);
+                }   
             }
         }
 
-    }
 
-    public String getFieldName(int number)
-    {
-        switch(number)
+        public void writeTo(Output output, SearchRecipie message) throws IOException
         {
-            case 1: return "setResultpages";
-            case 2: return "recipies";
-            default: return null;
+            if(message.setResultpages != null)
+                output.writeUInt32(1, message.setResultpages, false);
+
+            if(message.recipies != null)
+            {
+                for(Recipie recipies : message.recipies)
+                {
+                    if(recipies != null)
+                        output.writeObject(2, recipies, Recipie.getSchema(), true);
+                }
+            }
+
         }
-    }
 
-    public int getFieldNumber(String name)
-    {
-        final Integer number = (Integer)__fieldMap.get(name);
-        return number == null ? 0 : number.intValue();
-    }
+        public String getFieldName(int number)
+        {
+            switch(number)
+            {
+                case 1: return "setResultpages";
+                case 2: return "recipies";
+                default: return null;
+            }
+        }
 
-    private static final java.util.Hashtable __fieldMap = new java.util.Hashtable();
-    static
-    {
-        __fieldMap.put("setResultpages", new Integer(1));
-        __fieldMap.put("recipies", new Integer(2));
-    }
+        public int getFieldNumber(String name)
+        {
+            final Integer number = fieldMap.get(name);
+            return number == null ? 0 : number.intValue();
+        }
+
+        final java.util.HashMap<String,Integer> fieldMap = new java.util.HashMap<String,Integer>();
+        {
+            fieldMap.put("setResultpages", 1);
+            fieldMap.put("recipies", 2);
+        }
+    };
     
 }

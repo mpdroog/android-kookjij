@@ -3,22 +3,26 @@
 
 package nl.rootdev.android.kookjijclient2.datastructures.pb;
 
+import java.io.Externalizable;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 import nl.rootdev.android.kookjijclient2.datastructures.IColumn;
 
-import com.dyuproject.protostuff.me.Input;
-import com.dyuproject.protostuff.me.Message;
-import com.dyuproject.protostuff.me.Output;
-import com.dyuproject.protostuff.me.Schema;
-import com.dyuproject.protostuff.me.UninitializedMessageException;
+import com.dyuproject.protostuff.GraphIOUtil;
+import com.dyuproject.protostuff.Input;
+import com.dyuproject.protostuff.Message;
+import com.dyuproject.protostuff.Output;
+import com.dyuproject.protostuff.Schema;
+import com.dyuproject.protostuff.UninitializedMessageException;
 
-public final class Column implements Message, Schema, IColumn
+public final class Column implements Externalizable, Message<Column>, IColumn
 {
 
-    public static Schema getSchema()
+    public static Schema<Column> getSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
     public static Column getDefaultInstance()
@@ -29,9 +33,11 @@ public final class Column implements Message, Schema, IColumn
     static final Column DEFAULT_INSTANCE = new Column();
 
     
-    private String name;
-    private String text;
-    private String image;
+    // non-private fields
+    // see http://developer.android.com/guide/practices/design/performance.html#package_inner
+    String name;
+    String text;
+    String image;
 
     public Column()
     {
@@ -85,113 +91,117 @@ public final class Column implements Message, Schema, IColumn
         this.image = image;
     }
 
+    // java serialization
+
+    public void readExternal(ObjectInput in) throws IOException
+    {
+        GraphIOUtil.mergeDelimitedFrom(in, this, SCHEMA);
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException
+    {
+        GraphIOUtil.writeDelimitedTo(out, this, SCHEMA);
+    }
+
     // message method
 
-    public Schema cachedSchema()
+    public Schema<Column> cachedSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
-    // schema methods
-
-    public Object /*Column*/ newMessage()
+    static final Schema<Column> SCHEMA = new Schema<Column>()
     {
-        return new Column();
-    }
+        // schema methods
 
-    public Class typeClass()
-    {
-        return Column.class;
-    }
+        public Column newMessage()
+        {
+            return new Column();
+        }
 
-    public String messageName()
-    {
-        return "Column";
-    }
+        public Class<Column> typeClass()
+        {
+            return Column.class;
+        }
 
-    public String messageFullName()
-    {
-        return Column.class.getName();
-    }
+        public String messageName()
+        {
+            return Column.class.getSimpleName();
+        }
 
-    public boolean isInitialized(Object /*Column*/ messageObj)
-    {
-        Column message = (Column)messageObj;
-        return 
-            message.name != null 
-            && message.text != null;
-    }
+        public String messageFullName()
+        {
+            return Column.class.getName();
+        }
 
-    public void mergeFrom(Input input, Object /*Column*/ messageObj) throws IOException
-    {
-        Column message = (Column)messageObj;
-        for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
+        public boolean isInitialized(Column message)
+        {
+            return 
+                message.name != null 
+                && message.text != null;
+        }
+
+        public void mergeFrom(Input input, Column message) throws IOException
+        {
+            for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
+            {
+                switch(number)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        message.name = input.readString();
+                        break;
+                    case 2:
+                        message.text = input.readString();
+                        break;
+                    case 3:
+                        message.image = input.readString();
+                        break;
+                    default:
+                        input.handleUnknownField(number, this);
+                }   
+            }
+        }
+
+
+        public void writeTo(Output output, Column message) throws IOException
+        {
+            if(message.name == null)
+                throw new UninitializedMessageException(message);
+            output.writeString(1, message.name, false);
+
+            if(message.text == null)
+                throw new UninitializedMessageException(message);
+            output.writeString(2, message.text, false);
+
+            if(message.image != null)
+                output.writeString(3, message.image, false);
+        }
+
+        public String getFieldName(int number)
         {
             switch(number)
             {
-                case 0:
-                    return;
-                case 1:
-                    message.name = input.readString();
-                    break;
-
-                case 2:
-                    message.text = input.readString();
-                    break;
-
-                case 3:
-                    message.image = input.readString();
-                    break;
-
-                default:
-                    input.handleUnknownField(number, this);
-            }   
+                case 1: return "name";
+                case 2: return "text";
+                case 3: return "image";
+                default: return null;
+            }
         }
-    }
 
-
-
-    public void writeTo(Output output, Object /*Column*/ messageObj) throws IOException
-    {
-        Column message = (Column)messageObj;
-        if(message.name == null)
-            throw new UninitializedMessageException(message);
-        output.writeString(1, message.name, false);
-
-
-        if(message.text == null)
-            throw new UninitializedMessageException(message);
-        output.writeString(2, message.text, false);
-
-
-        if(message.image != null)
-            output.writeString(3, message.image, false);
-
-    }
-
-    public String getFieldName(int number)
-    {
-        switch(number)
+        public int getFieldNumber(String name)
         {
-            case 1: return "name";
-            case 2: return "text";
-            case 3: return "image";
-            default: return null;
+            final Integer number = fieldMap.get(name);
+            return number == null ? 0 : number.intValue();
         }
-    }
 
-    public int getFieldNumber(String name)
-    {
-        final Integer number = (Integer)__fieldMap.get(name);
-        return number == null ? 0 : number.intValue();
-    }
-
-    private static final java.util.Hashtable __fieldMap = new java.util.Hashtable();
-    static
-    {
-        __fieldMap.put("name", new Integer(1));
-        __fieldMap.put("text", new Integer(2));
-        __fieldMap.put("image", new Integer(3));
-    }
+        final java.util.HashMap<String,Integer> fieldMap = new java.util.HashMap<String,Integer>();
+        {
+            fieldMap.put("name", 1);
+            fieldMap.put("text", 2);
+            fieldMap.put("image", 3);
+        }
+    };
     
 }

@@ -3,22 +3,26 @@
 
 package nl.rootdev.android.kookjijclient2.datastructures.pb;
 
+import java.io.Externalizable;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 import nl.rootdev.android.kookjijclient2.datastructures.IRecipie;
 
-import com.dyuproject.protostuff.me.Input;
-import com.dyuproject.protostuff.me.Message;
-import com.dyuproject.protostuff.me.Output;
-import com.dyuproject.protostuff.me.Schema;
-import com.dyuproject.protostuff.me.UninitializedMessageException;
+import com.dyuproject.protostuff.GraphIOUtil;
+import com.dyuproject.protostuff.Input;
+import com.dyuproject.protostuff.Message;
+import com.dyuproject.protostuff.Output;
+import com.dyuproject.protostuff.Schema;
+import com.dyuproject.protostuff.UninitializedMessageException;
 
-public final class Recipie implements Message, Schema, IRecipie
+public final class Recipie implements Externalizable, Message<Recipie>, IRecipie
 {
 
-    public static Schema getSchema()
+    public static Schema<Recipie> getSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
     public static Recipie getDefaultInstance()
@@ -29,18 +33,20 @@ public final class Recipie implements Message, Schema, IRecipie
     static final Recipie DEFAULT_INSTANCE = new Recipie();
 
     
-    private Long id;
-    private String name;
-    private Integer preparationTime;
-    private String description;
-    private Long lastedit;
-    private Integer rating;
-    private String origin;
-    private Integer serves;
-    private String image;
-    private String ingredients;
-    private String comment;
-    private String introduction;
+    // non-private fields
+    // see http://developer.android.com/guide/practices/design/performance.html#package_inner
+    Long id;
+    String name;
+    Integer preparationTime;
+    String description;
+    Long lastedit;
+    Integer rating;
+    String origin;
+    Integer serves;
+    String image;
+    String ingredients;
+    String comment;
+    String introduction;
 
     public Recipie()
     {
@@ -216,207 +222,203 @@ public final class Recipie implements Message, Schema, IRecipie
         this.introduction = introduction;
     }
 
+    // java serialization
+
+    public void readExternal(ObjectInput in) throws IOException
+    {
+        GraphIOUtil.mergeDelimitedFrom(in, this, SCHEMA);
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException
+    {
+        GraphIOUtil.writeDelimitedTo(out, this, SCHEMA);
+    }
+
     // message method
 
-    public Schema cachedSchema()
+    public Schema<Recipie> cachedSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
-    // schema methods
-
-    public Object /*Recipie*/ newMessage()
+    static final Schema<Recipie> SCHEMA = new Schema<Recipie>()
     {
-        return new Recipie();
-    }
+        // schema methods
 
-    public Class typeClass()
-    {
-        return Recipie.class;
-    }
+        public Recipie newMessage()
+        {
+            return new Recipie();
+        }
 
-    public String messageName()
-    {
-        return "Recipie";
-    }
+        public Class<Recipie> typeClass()
+        {
+            return Recipie.class;
+        }
 
-    public String messageFullName()
-    {
-        return Recipie.class.getName();
-    }
+        public String messageName()
+        {
+            return Recipie.class.getSimpleName();
+        }
 
-    public boolean isInitialized(Object /*Recipie*/ messageObj)
-    {
-        Recipie message = (Recipie)messageObj;
-        return 
-            message.id != null 
-            && message.name != null 
-            && message.preparationTime != null 
-            && message.description != null 
-            && message.lastedit != null 
-            && message.rating != null 
-            && message.origin != null 
-            && message.serves != null 
-            && message.ingredients != null;
-    }
+        public String messageFullName()
+        {
+            return Recipie.class.getName();
+        }
 
-    public void mergeFrom(Input input, Object /*Recipie*/ messageObj) throws IOException
-    {
-        Recipie message = (Recipie)messageObj;
-        for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
+        public boolean isInitialized(Recipie message)
+        {
+            return 
+                message.id != null 
+                && message.name != null 
+                && message.preparationTime != null 
+                && message.description != null 
+                && message.lastedit != null 
+                && message.rating != null 
+                && message.origin != null 
+                && message.serves != null 
+                && message.ingredients != null;
+        }
+
+        public void mergeFrom(Input input, Recipie message) throws IOException
+        {
+            for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
+            {
+                switch(number)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        message.id = input.readUInt64();
+                        break;
+                    case 2:
+                        message.name = input.readString();
+                        break;
+                    case 3:
+                        message.preparationTime = input.readUInt32();
+                        break;
+                    case 4:
+                        message.description = input.readString();
+                        break;
+                    case 5:
+                        message.lastedit = input.readUInt64();
+                        break;
+                    case 6:
+                        message.rating = input.readUInt32();
+                        break;
+                    case 7:
+                        message.origin = input.readString();
+                        break;
+                    case 8:
+                        message.serves = input.readUInt32();
+                        break;
+                    case 9:
+                        message.image = input.readString();
+                        break;
+                    case 10:
+                        message.ingredients = input.readString();
+                        break;
+                    case 11:
+                        message.comment = input.readString();
+                        break;
+                    case 12:
+                        message.introduction = input.readString();
+                        break;
+                    default:
+                        input.handleUnknownField(number, this);
+                }   
+            }
+        }
+
+
+        public void writeTo(Output output, Recipie message) throws IOException
+        {
+            if(message.id == null)
+                throw new UninitializedMessageException(message);
+            output.writeUInt64(1, message.id, false);
+
+            if(message.name == null)
+                throw new UninitializedMessageException(message);
+            output.writeString(2, message.name, false);
+
+            if(message.preparationTime == null)
+                throw new UninitializedMessageException(message);
+            output.writeUInt32(3, message.preparationTime, false);
+
+            if(message.description == null)
+                throw new UninitializedMessageException(message);
+            output.writeString(4, message.description, false);
+
+            if(message.lastedit == null)
+                throw new UninitializedMessageException(message);
+            output.writeUInt64(5, message.lastedit, false);
+
+            if(message.rating == null)
+                throw new UninitializedMessageException(message);
+            output.writeUInt32(6, message.rating, false);
+
+            if(message.origin == null)
+                throw new UninitializedMessageException(message);
+            output.writeString(7, message.origin, false);
+
+            if(message.serves == null)
+                throw new UninitializedMessageException(message);
+            output.writeUInt32(8, message.serves, false);
+
+            if(message.image != null)
+                output.writeString(9, message.image, false);
+
+            if(message.ingredients == null)
+                throw new UninitializedMessageException(message);
+            output.writeString(10, message.ingredients, false);
+
+            if(message.comment != null)
+                output.writeString(11, message.comment, false);
+
+            if(message.introduction != null)
+                output.writeString(12, message.introduction, false);
+        }
+
+        public String getFieldName(int number)
         {
             switch(number)
             {
-                case 0:
-                    return;
-                case 1:
-                    message.id = new Long(input.readUInt64());
-                    break;
-                case 2:
-                    message.name = input.readString();
-                    break;
-
-                case 3:
-                    message.preparationTime = new Integer(input.readUInt32());
-                    break;
-                case 4:
-                    message.description = input.readString();
-                    break;
-
-                case 5:
-                    message.lastedit = new Long(input.readUInt64());
-                    break;
-                case 6:
-                    message.rating = new Integer(input.readUInt32());
-                    break;
-                case 7:
-                    message.origin = input.readString();
-                    break;
-
-                case 8:
-                    message.serves = new Integer(input.readUInt32());
-                    break;
-                case 9:
-                    message.image = input.readString();
-                    break;
-
-                case 10:
-                    message.ingredients = input.readString();
-                    break;
-
-                case 11:
-                    message.comment = input.readString();
-                    break;
-
-                case 12:
-                    message.introduction = input.readString();
-                    break;
-
-                default:
-                    input.handleUnknownField(number, this);
-            }   
+                case 1: return "id";
+                case 2: return "name";
+                case 3: return "preparationTime";
+                case 4: return "description";
+                case 5: return "lastedit";
+                case 6: return "rating";
+                case 7: return "origin";
+                case 8: return "serves";
+                case 9: return "image";
+                case 10: return "ingredients";
+                case 11: return "comment";
+                case 12: return "introduction";
+                default: return null;
+            }
         }
-    }
 
-
-
-    public void writeTo(Output output, Object /*Recipie*/ messageObj) throws IOException
-    {
-        Recipie message = (Recipie)messageObj;
-        if(message.id == null)
-            throw new UninitializedMessageException(message);
-        output.writeUInt64(1, message.id.longValue(), false);
-
-        if(message.name == null)
-            throw new UninitializedMessageException(message);
-        output.writeString(2, message.name, false);
-
-
-        if(message.preparationTime == null)
-            throw new UninitializedMessageException(message);
-        output.writeUInt32(3, message.preparationTime.intValue(), false);
-
-        if(message.description == null)
-            throw new UninitializedMessageException(message);
-        output.writeString(4, message.description, false);
-
-
-        if(message.lastedit == null)
-            throw new UninitializedMessageException(message);
-        output.writeUInt64(5, message.lastedit.longValue(), false);
-
-        if(message.rating == null)
-            throw new UninitializedMessageException(message);
-        output.writeUInt32(6, message.rating.intValue(), false);
-
-        if(message.origin == null)
-            throw new UninitializedMessageException(message);
-        output.writeString(7, message.origin, false);
-
-
-        if(message.serves == null)
-            throw new UninitializedMessageException(message);
-        output.writeUInt32(8, message.serves.intValue(), false);
-
-        if(message.image != null)
-            output.writeString(9, message.image, false);
-
-
-        if(message.ingredients == null)
-            throw new UninitializedMessageException(message);
-        output.writeString(10, message.ingredients, false);
-
-
-        if(message.comment != null)
-            output.writeString(11, message.comment, false);
-
-
-        if(message.introduction != null)
-            output.writeString(12, message.introduction, false);
-
-    }
-
-    public String getFieldName(int number)
-    {
-        switch(number)
+        public int getFieldNumber(String name)
         {
-            case 1: return "id";
-            case 2: return "name";
-            case 3: return "preparationTime";
-            case 4: return "description";
-            case 5: return "lastedit";
-            case 6: return "rating";
-            case 7: return "origin";
-            case 8: return "serves";
-            case 9: return "image";
-            case 10: return "ingredients";
-            case 11: return "comment";
-            case 12: return "introduction";
-            default: return null;
+            final Integer number = fieldMap.get(name);
+            return number == null ? 0 : number.intValue();
         }
-    }
 
-    public int getFieldNumber(String name)
-    {
-        final Integer number = (Integer)__fieldMap.get(name);
-        return number == null ? 0 : number.intValue();
-    }
-
-    private static final java.util.Hashtable __fieldMap = new java.util.Hashtable();
-    static
-    {
-        __fieldMap.put("id", new Integer(1));
-        __fieldMap.put("name", new Integer(2));
-        __fieldMap.put("preparationTime", new Integer(3));
-        __fieldMap.put("description", new Integer(4));
-        __fieldMap.put("lastedit", new Integer(5));
-        __fieldMap.put("rating", new Integer(6));
-        __fieldMap.put("origin", new Integer(7));
-        __fieldMap.put("serves", new Integer(8));
-        __fieldMap.put("image", new Integer(9));
-        __fieldMap.put("ingredients", new Integer(10));
-        __fieldMap.put("comment", new Integer(11));
-        __fieldMap.put("introduction", new Integer(12));
-    }
+        final java.util.HashMap<String,Integer> fieldMap = new java.util.HashMap<String,Integer>();
+        {
+            fieldMap.put("id", 1);
+            fieldMap.put("name", 2);
+            fieldMap.put("preparationTime", 3);
+            fieldMap.put("description", 4);
+            fieldMap.put("lastedit", 5);
+            fieldMap.put("rating", 6);
+            fieldMap.put("origin", 7);
+            fieldMap.put("serves", 8);
+            fieldMap.put("image", 9);
+            fieldMap.put("ingredients", 10);
+            fieldMap.put("comment", 11);
+            fieldMap.put("introduction", 12);
+        }
+    };
     
 }

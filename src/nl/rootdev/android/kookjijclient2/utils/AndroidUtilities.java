@@ -1,5 +1,7 @@
 package nl.rootdev.android.kookjijclient2.utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -125,5 +127,12 @@ public class AndroidUtilities {
 		builder.append(day);
 
 		return builder.toString();
+	}
+	
+	public String getStacktrace(Exception e) {
+		final StringWriter str = new StringWriter();
+		final PrintWriter writer = new PrintWriter(str);
+		e.printStackTrace(writer);
+		return str.toString();
 	}
 }

@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="libs/protostuff-me-1.0.7.jar"/>
 	<classpathentry kind="lib" path="/Users/mark/Downloads/android-sdk-macosx/platforms/android-14/android.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/Users/mark/Downloads/android-sdk-macosx/docs/reference"/>
@@ -12,5 +11,9 @@
 			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/protostuff-api-1.0.7.jar"/>
+	<classpathentry kind="lib" path="libs/protostuff-collectionschema-1.0.7.jar"/>
+	<classpathentry kind="lib" path="libs/protostuff-runtime-md-1.0.7.jar"/>
+	<classpathentry kind="lib" path="libs/protostuff-core-1.0.7.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

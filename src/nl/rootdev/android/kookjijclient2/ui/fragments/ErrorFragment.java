@@ -18,12 +18,14 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class ErrorFragment extends SherlockFragment
 {
-	private final Exception _exception;
-	private final IConnectionHandle _handle;
+	private String _stacktrace;
+	private String _error;
 	
-	public ErrorFragment(IConnectionHandle handle, Exception e) {
-		_exception = e;
-		_handle = handle;
+	@Override
+	public void setArguments(Bundle args) {
+		super.setArguments(args);
+		_stacktrace = args.getString("stacktrace");
+		_error = args.getString("error");
 	}
 	    
 	@Override
@@ -31,16 +33,9 @@ public class ErrorFragment extends SherlockFragment
 		super.onActivityCreated(savedInstanceState);
 		final EditText stacktrace = (EditText) getSherlockActivity().findViewById(R.id.stacktrace);
 		final TextView reason = (TextView) getSherlockActivity().findViewById(R.id.reason);
-		
-		// Update window
-		{	
-			final StringWriter str = new StringWriter();
-			final PrintWriter writer = new PrintWriter(str);
-			_exception.printStackTrace(writer);
 	
-			reason.setText(_exception.getMessage());		
-			stacktrace.setText(str.toString());
-		}
+		reason.setText(_error);
+		stacktrace.setText(_stacktrace);
 		
 		// I/O
 		final Button button = (Button) getSherlockActivity().findViewById(R.id.openStacktrace);
@@ -58,7 +53,7 @@ public class ErrorFragment extends SherlockFragment
 			
 			@Override
 			public void onClick(View v) {
-				_handle.retryDownload();
+				//_handle.retryDownload();
 			}
 		});
 	}

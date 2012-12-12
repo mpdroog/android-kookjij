@@ -3,22 +3,26 @@
 
 package nl.rootdev.android.kookjijclient2.datastructures.pb;
 
+import java.io.Externalizable;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 import nl.rootdev.android.kookjijclient2.datastructures.ICategory;
 
-import com.dyuproject.protostuff.me.Input;
-import com.dyuproject.protostuff.me.Message;
-import com.dyuproject.protostuff.me.Output;
-import com.dyuproject.protostuff.me.Schema;
-import com.dyuproject.protostuff.me.UninitializedMessageException;
+import com.dyuproject.protostuff.GraphIOUtil;
+import com.dyuproject.protostuff.Input;
+import com.dyuproject.protostuff.Message;
+import com.dyuproject.protostuff.Output;
+import com.dyuproject.protostuff.Schema;
+import com.dyuproject.protostuff.UninitializedMessageException;
 
-public final class Category implements Message, Schema, ICategory
+public final class Category implements Externalizable, Message<Category>, ICategory
 {
 
-    public static Schema getSchema()
+    public static Schema<Category> getSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
     public static Category getDefaultInstance()
@@ -29,9 +33,11 @@ public final class Category implements Message, Schema, ICategory
     static final Category DEFAULT_INSTANCE = new Category();
 
     
-    private Integer setCurpage;
-    private Integer setResultpages;
-    private String items;
+    // non-private fields
+    // see http://developer.android.com/guide/practices/design/performance.html#package_inner
+    Integer setCurpage;
+    Integer setResultpages;
+    String items;
 
     public Category()
     {
@@ -85,109 +91,117 @@ public final class Category implements Message, Schema, ICategory
         this.items = items;
     }
 
+    // java serialization
+
+    public void readExternal(ObjectInput in) throws IOException
+    {
+        GraphIOUtil.mergeDelimitedFrom(in, this, SCHEMA);
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException
+    {
+        GraphIOUtil.writeDelimitedTo(out, this, SCHEMA);
+    }
+
     // message method
 
-    public Schema cachedSchema()
+    public Schema<Category> cachedSchema()
     {
-        return DEFAULT_INSTANCE;
+        return SCHEMA;
     }
 
-    // schema methods
-
-    public Object /*Category*/ newMessage()
+    static final Schema<Category> SCHEMA = new Schema<Category>()
     {
-        return new Category();
-    }
+        // schema methods
 
-    public Class typeClass()
-    {
-        return Category.class;
-    }
+        public Category newMessage()
+        {
+            return new Category();
+        }
 
-    public String messageName()
-    {
-        return "Category";
-    }
+        public Class<Category> typeClass()
+        {
+            return Category.class;
+        }
 
-    public String messageFullName()
-    {
-        return Category.class.getName();
-    }
+        public String messageName()
+        {
+            return Category.class.getSimpleName();
+        }
 
-    public boolean isInitialized(Object /*Category*/ messageObj)
-    {
-        Category message = (Category)messageObj;
-        return 
-            message.setCurpage != null 
-            && message.setResultpages != null;
-    }
+        public String messageFullName()
+        {
+            return Category.class.getName();
+        }
 
-    public void mergeFrom(Input input, Object /*Category*/ messageObj) throws IOException
-    {
-        Category message = (Category)messageObj;
-        for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
+        public boolean isInitialized(Category message)
+        {
+            return 
+                message.setCurpage != null 
+                && message.setResultpages != null;
+        }
+
+        public void mergeFrom(Input input, Category message) throws IOException
+        {
+            for(int number = input.readFieldNumber(this);; number = input.readFieldNumber(this))
+            {
+                switch(number)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        message.setCurpage = input.readUInt32();
+                        break;
+                    case 2:
+                        message.setResultpages = input.readUInt32();
+                        break;
+                    case 3:
+                        message.items = input.readString();
+                        break;
+                    default:
+                        input.handleUnknownField(number, this);
+                }   
+            }
+        }
+
+
+        public void writeTo(Output output, Category message) throws IOException
+        {
+            if(message.setCurpage == null)
+                throw new UninitializedMessageException(message);
+            output.writeUInt32(1, message.setCurpage, false);
+
+            if(message.setResultpages == null)
+                throw new UninitializedMessageException(message);
+            output.writeUInt32(2, message.setResultpages, false);
+
+            if(message.items != null)
+                output.writeString(3, message.items, false);
+        }
+
+        public String getFieldName(int number)
         {
             switch(number)
             {
-                case 0:
-                    return;
-                case 1:
-                    message.setCurpage = new Integer(input.readUInt32());
-                    break;
-                case 2:
-                    message.setResultpages = new Integer(input.readUInt32());
-                    break;
-                case 3:
-                    message.items = input.readString();
-                    break;
-
-                default:
-                    input.handleUnknownField(number, this);
-            }   
+                case 1: return "setCurpage";
+                case 2: return "setResultpages";
+                case 3: return "items";
+                default: return null;
+            }
         }
-    }
 
-
-
-    public void writeTo(Output output, Object /*Category*/ messageObj) throws IOException
-    {
-        Category message = (Category)messageObj;
-        if(message.setCurpage == null)
-            throw new UninitializedMessageException(message);
-        output.writeUInt32(1, message.setCurpage.intValue(), false);
-
-        if(message.setResultpages == null)
-            throw new UninitializedMessageException(message);
-        output.writeUInt32(2, message.setResultpages.intValue(), false);
-
-        if(message.items != null)
-            output.writeString(3, message.items, false);
-
-    }
-
-    public String getFieldName(int number)
-    {
-        switch(number)
+        public int getFieldNumber(String name)
         {
-            case 1: return "setCurpage";
-            case 2: return "setResultpages";
-            case 3: return "items";
-            default: return null;
+            final Integer number = fieldMap.get(name);
+            return number == null ? 0 : number.intValue();
         }
-    }
 
-    public int getFieldNumber(String name)
-    {
-        final Integer number = (Integer)__fieldMap.get(name);
-        return number == null ? 0 : number.intValue();
-    }
-
-    private static final java.util.Hashtable __fieldMap = new java.util.Hashtable();
-    static
-    {
-        __fieldMap.put("setCurpage", new Integer(1));
-        __fieldMap.put("setResultpages", new Integer(2));
-        __fieldMap.put("items", new Integer(3));
-    }
+        final java.util.HashMap<String,Integer> fieldMap = new java.util.HashMap<String,Integer>();
+        {
+            fieldMap.put("setCurpage", 1);
+            fieldMap.put("setResultpages", 2);
+            fieldMap.put("items", 3);
+        }
+    };
     
 }

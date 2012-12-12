@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
 import nl.rootdev.android.kookjijclient2.R;
+import nl.rootdev.android.kookjijclient2.datastructures.pb.Category;
 import nl.rootdev.android.kookjijclient2.datastructures.pb.Recipie;
 import nl.rootdev.android.kookjijclient2.ui.fragments.ErrorFragment;
 import nl.rootdev.android.kookjijclient2.ui.fragments.LoadingFragment;
@@ -19,7 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.dyuproject.protostuff.me.ProtostuffIOUtil;
+import com.dyuproject.protostuff.ProtobufIOUtil;
+import com.dyuproject.protostuff.ProtostuffIOUtil;
+import com.dyuproject.protostuff.Schema;
+import com.dyuproject.protostuff.runtime.RuntimeSchema;
 
 /**
  * The master of a group of fragments responsible in
@@ -93,7 +97,12 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 						action2.replace(R.id.recipieFragment, home).commit();
 					} else {
-						final ErrorFragment error = new ErrorFragment(that, getException());
+						final ErrorFragment error = new ErrorFragment();
+						Bundle bundle = new Bundle();
+						bundle.putString("stacktrace", AndroidUtilities.getInstance().getStacktrace(getException()));
+						bundle.putString("error", getException().getMessage());
+						error.setArguments(bundle);
+
 						final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 						action2.replace(R.id.recipieFragment, error).commit();
 					}
@@ -103,8 +112,9 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 				protected void startTextDownload(InputStream link) {
 					try {
 						_recipie = new Recipie();
-						ProtostuffIOUtil.mergeFrom(new GZIPInputStream(link), _recipie,
-								Recipie.getSchema());
+						Schema<Recipie> schema = RuntimeSchema.getSchema(Recipie.class);
+						ProtobufIOUtil.mergeFrom(link, (Recipie)_recipie, schema);
+
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
@@ -124,7 +134,12 @@ public class RecipieFrame extends SherlockFragment implements IConnectionHandle 
 		}
 		catch(Exception e) {
 			// TODO: Remove this?
-			final ErrorFragment error = new ErrorFragment(this, e);
+			final ErrorFragment error = new ErrorFragment();
+			Bundle bundle = new Bundle();
+			bundle.putString("stacktrace", AndroidUtilities.getInstance().getStacktrace(e));
+			bundle.putString("error", e.getMessage());
+			error.setArguments(bundle);
+
 			final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 			action2.replace(R.id.recipieFragment, error).commit();
 		}		
