@@ -43,7 +43,7 @@ public class Main extends SherlockFragmentActivity implements SearchPerformListe
     	tabAdapter.addTab(bar.newTab().setText(R.string.tab_category), CategoriesFragment.class, null);
 		tabAdapter.addTab(bar.newTab().setText(R.string.tab_recipie_day), RecipieFrame.class, null, true);
     	tabAdapter.addTab(bar.newTab().setText("Column"), ColumnFrame.class, null);
-    	//tabAdapter.addTab(bar.newTab().setText("Favorieten"), FavoriteGridFragment.class, null);
+    	//tabAdapter.addTab(bar.newTab().setText("Favorieten"), FavoriteGridFragment.class, null);    	
     	setContentView(pager);
     }
 

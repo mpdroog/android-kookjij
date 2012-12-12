@@ -29,6 +29,7 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
 {
 	private TabsAdapter tabAdapter;
 	private ViewPager pager;
+	private Intent _intent;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,22 +42,19 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
         bar.setDisplayShowHomeEnabled(true);
         bar.setDisplayHomeAsUpEnabled(true);
         
-        bar.setTitle(getIntent().getExtras().getString("title"));
+        _intent = getIntent();
+        bar.setTitle(_intent.getExtras().getString("title"));
 
 		pager = new ViewPager(this);
 		pager.setId(R.id.normal);
 		tabAdapter = new TabsAdapter(this, pager);
-		String[] tabNames = getResources().getStringArray(getIntent().getExtras().getInt("categoryIndex"));
+		String[] tabNames = getResources().getStringArray(_intent.getExtras().getInt("categoryIndex"));
 		for(String tabName : tabNames) {
-	    	tabAdapter.addTab(bar.newTab().setText(tabName), CategoryFrame.class, null);
+			Bundle bundle = new Bundle();
+			bundle.putString("name", tabName);
+	    	tabAdapter.addTab(bar.newTab().setText(tabName), CategoryFrame.class, bundle);
 		}
-    	setContentView(pager);
-        
-        Intent intent = getIntent();
-        if(intent.ACTION_SEARCH.equals(intent.getAction())) {
-        	String query = intent.getStringExtra(SearchManager.QUERY);
-        	System.out.println(query);
-        }
+    	setContentView(pager);        
     }
 
     @Override
@@ -64,46 +62,6 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
     	Context context = getSupportActionBar().getThemedContext();
     	new MenuItemSearchAction(context, menu, this); // not working??
         return true;
-    }
-
-    public static class MyTabListener<T extends SherlockFragment> implements TabListener {
-    	private Class<T> _fragment;
-    	private Fragment _curFragment;
-    	private SherlockFragmentActivity _activity;
-    	
-		public MyTabListener(SherlockFragmentActivity activity, Class<T> fragment) {
-			_fragment = fragment;
-			_activity = activity;
-		}
-
-		@Override
-		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ignoreFt) {
-			FragmentManager fragMgr = _activity.getSupportFragmentManager();
-		    FragmentTransaction ft = fragMgr.beginTransaction();
-		    
-			if(_curFragment == null) {
-				_curFragment = SherlockFragment.instantiate(_activity, _fragment.getName());
-				ft.add(android.R.id.content, _curFragment);
-			}
-			else {
-				//ft.setCustomAnimations(android.R.animator.fade_in, 100);
-				ft.attach(_curFragment);
-			}
-			ft.commit();
-		}
-
-		@Override
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			if(_curFragment != null) {
-				ft.detach(_curFragment);
-			}
-		}
-
-		@Override
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			// TODO Auto-generated method stub
-			
-		}
     }
     
     @Override

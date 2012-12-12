@@ -1,9 +1,7 @@
 package nl.rootdev.android.kookjijclient2.ui.frames;
 
 import java.io.InputStream;
-import java.io.PushbackInputStream;
 import java.net.URL;
-import java.util.zip.GZIPInputStream;
 
 import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.datastructures.ICategory;
@@ -40,7 +38,7 @@ import com.dyuproject.protostuff.runtime.RuntimeSchema;
 public class CategoryFrame extends SherlockFragment implements IConnectionHandle  {	
 	/** Reference in case we need to intervene (UI requests) */
 	private AsyncDownload _download;
-	
+
 	/**
 	 * Stop downloading the data from the web.
 	 */
@@ -82,9 +80,7 @@ public class CategoryFrame extends SherlockFragment implements IConnectionHandle
 	}
 	
 	private void startAsyncDownload() {
-		openLoading();
-		final CategoryFrame that = this; /* This really feels like Javascript XD, async FTW */
-		
+		openLoading();		
 		try {
 			_download = new AsyncDownload(getSherlockActivity().getCacheDir().toString()) {
 				private ICategory _category;
@@ -126,7 +122,7 @@ public class CategoryFrame extends SherlockFragment implements IConnectionHandle
 			};
 			
 			_download.execute(new URL[] {
-				new URL("http://dev.android.kookjij.mobi/api.php?f=b&c=" + "Groenten" + "&date=" + AndroidUtilities.getInstance().getDate()),
+				new URL("http://dev.android.kookjij.mobi/api.php?f=b&c=" + getArguments().getString("name") + "&date=" + AndroidUtilities.getInstance().getDate()),
 			});
 		}
 		catch(Exception e) {
