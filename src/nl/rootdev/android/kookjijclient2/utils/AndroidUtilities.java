@@ -164,6 +164,8 @@ public class AndroidUtilities {
 		if(magic[0] == (byte) 0x1f && magic[1] == (byte) 0x8b) {
 			/* GZIP is added round PushBackInputStream else we'll miss 2 bytes */
 			output = new GZIPInputStream(pb);
+		} else {
+			output = pb;
 		}
 		return output;
 	}
