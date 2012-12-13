@@ -2,16 +2,20 @@ package nl.rootdev.android.kookjijclient2.ui.frames;
 
 import java.net.MalformedURLException;
 
-import nl.rootdev.android.kookjijclient2.ui.fragments.ErrorFragment;
-import nl.rootdev.android.kookjijclient2.ui.fragments.LoadingFragment;
+import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.ui.tasks.AsyncDownload;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -30,11 +34,47 @@ import com.actionbarsherlock.app.SherlockFragment;
 public abstract class AbstractLoadingFrame extends SherlockFragment implements IConnectionHandle  {	
 	/** Reference in case we need to intervene (UI requests) */
 	protected AsyncDownload _download;
+
+	/** Interval used to check download delta */
+	private final static long DOWNLOAD_INTERVAL_CHECK = 3000L;
+	/** Timer for updating progress-screen */
+	private Handler _timer;
+	private int _lastPercentage;
+
+	public AbstractLoadingFrame() {
+		super();
+		_timer = new Handler();
+	}
+	
+	private Runnable _updateTask = new Runnable() {
+		
+		@Override
+		public void run() {
+			final TextView percentage = (TextView)getView().findViewById(R.id.percentage);
+
+			int currentPercentage = getLoadingPercentage();
+			if(percentage == null) {
+				// TODO: Investigate why NULL?
+				System.out.println("Percentage is NULL? Bug?");
+			} else {
+				if(currentPercentage - _lastPercentage >= 10) {
+					// Normal speed
+					percentage.setText(currentPercentage + "%");
+				} else {
+					// SLOOOOW, 3sec and less than 10 percent
+					percentage.setText(currentPercentage + "%");
+				}
+			}
+			_lastPercentage = currentPercentage;
+			_timer.postDelayed(this, DOWNLOAD_INTERVAL_CHECK);
+		}
+	};
 	
 	/**
 	 * Stop downloading the data from the web.
 	 */
 	public void stopDownload() {
+		_timer.removeCallbacks(_updateTask);
 		_download.cancel(true);
 	}
 	
@@ -44,7 +84,9 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	 * the user can say stop and try again.
 	 */
 	public void retryDownload() {
+		_timer.removeCallbacks(_updateTask);
 		_download.cancel(true);
+		openLoading();
 		
 		try {
 			startAsyncDownload(getArguments());
@@ -52,7 +94,7 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 			openError(e);
 		}
 	}
-	
+		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,6 +104,7 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	@Override
 	public void onDestroyView() {
 		_download.cancel(true);
+		_timer.removeCallbacks(_updateTask);
 		super.onDestroyView();
 	}
 	
@@ -71,20 +114,42 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	}
 	
 	private void openLoading() {
-		LoadingFragment loading = new LoadingFragment(this);
-		FragmentTransaction action = getFragmentManager().beginTransaction();
-		action.replace(getFragmentId(), loading).commit();
+		_timer.postDelayed(_updateTask, DOWNLOAD_INTERVAL_CHECK);		
+
+		LinearLayout loading = (LinearLayout) getView().findViewById(R.id.loading);
+		LinearLayout error = (LinearLayout) getView().findViewById(R.id.error);
+
+		if (error.getVisibility() == View.VISIBLE) {
+			loading.setVisibility(View.VISIBLE);
+			error.setVisibility(View.INVISIBLE);
+		}
 	}
 	
-	protected void openError(Exception e) {		
-		final ErrorFragment error = new ErrorFragment();
-		Bundle bundle = new Bundle();
-		bundle.putString("stacktrace", AndroidUtilities.getInstance().getStacktrace(e));
-		bundle.putString("error", e.getMessage());
-		error.setArguments(bundle);
+	protected void stopAbstractLoadingFrame() {
+		LinearLayout loading = (LinearLayout) getView().findViewById(R.id.loading);
+		LinearLayout error = (LinearLayout) getView().findViewById(R.id.error);		
+		_timer.removeCallbacks(_updateTask);
+		
+		loading.setVisibility(View.GONE);
+		error.setVisibility(View.GONE);
+	}
+	
+	protected void openError(Exception e) {
+		_timer.removeCallbacks(_updateTask);		
 
-		final FragmentTransaction action2 = getFragmentManager().beginTransaction();
-		action2.replace(getFragmentId(), error).commit();
+		LinearLayout loading = (LinearLayout) getView().findViewById(R.id.loading);
+		LinearLayout error = (LinearLayout) getView().findViewById(R.id.error);
+
+		EditText stacktrace = (EditText) getView().findViewById(R.id.stacktrace);
+		TextView reason = (TextView) getView().findViewById(R.id.reason);
+		
+		reason.setText(e.getMessage());
+		stacktrace.setText(AndroidUtilities.getInstance().getStacktrace(e));
+		
+		if (loading.getVisibility() == View.VISIBLE) {
+			loading.setVisibility(View.INVISIBLE);
+			error.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	protected abstract void startAsyncDownload(Bundle savedInstanceState) throws MalformedURLException;
@@ -93,8 +158,60 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		openLoading();
 		
+		// Loading bindings
+		{
+			final Button stop = (Button) getView().findViewById(R.id.button_download_stop);
+			final Button retry = (Button) getView().findViewById(R.id.button_retry);
+			final ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressBar1);
+			
+			stop.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					stop.setEnabled(false);
+					TextView text = (TextView) getView().findViewById(R.id.textView1);
+					text.setText(R.string.stopped_download);
+					stopDownload();
+					progress.setVisibility(View.INVISIBLE);
+				}
+			});
+			retry.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					stop.setEnabled(true);
+					progress.setVisibility(View.VISIBLE);
+					retryDownload();
+				}
+			});
+		}
+		
+		// Error bindings
+		{
+			final Button expand = (Button) getView().findViewById(R.id.openStacktrace);
+			final Button retry = (Button) getView().findViewById(R.id.retry);
+			
+			retry.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					openLoading();
+					retryDownload();
+				}
+			});
+			expand.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					EditText stacktrace = (EditText) getView().findViewById(R.id.stacktrace);
+					stacktrace.setVisibility(View.VISIBLE);
+					expand.setEnabled(false);
+				}
+			});
+		}
+
+		openLoading();
 		try {
 			startAsyncDownload(savedInstanceState);
 		}
@@ -106,8 +223,8 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		FrameLayout frame = new FrameLayout(getSherlockActivity().getBaseContext());
-		frame.setId(getFragmentId());
-		return frame;
+		View item = inflater.inflate(R.layout.loadingframe, container, false);
+		item.setId(getFragmentId());
+		return item;
 	}
 }

@@ -40,6 +40,7 @@ public class ColumnFrame extends AbstractLoadingFrame  {
 			@Override
 			protected void onPostExecute(String result) {
 				if(getException() == null) {
+					stopAbstractLoadingFrame();
 					final ColumnFragment home = new ColumnFragment(_column);
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 					action2.replace(getFragmentId(), home).commit();

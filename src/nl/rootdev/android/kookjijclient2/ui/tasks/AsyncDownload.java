@@ -39,6 +39,18 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 		enableHttpResponseCache(tempFolder);
 	}
 	
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		try {
+			if (_textStream != null) { _textStream.close(); }
+			if (_textStream != null) { _imageStream.close(); }
+		}
+		catch(Exception e) {
+			// Ignore closing errors
+		}
+	}
+	
 	/**
 	 * Getting the bytecount is done through a synchronised action.
 	 * 
@@ -83,14 +95,19 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 			// Always read text
 			{
 				URLConnection link = params[0].openConnection();
+				if (isCancelled()) {
+					return "";
+				}
 				_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
 				startTextDownload(_textStream);
 			}
-
 			if (params.length == 2) {
 				// Only image on speedy connection
 				if(connection == ConnectionTypes.TYPE_WIFI || connection == ConnectionTypes.TYPE_MOBILE_FAST) {
 					URLConnection img = params[1].openConnection();
+					if (isCancelled()) {
+						return "";
+					}
 					_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
 					getImageDownload(BitmapFactory.decodeStream(_imageStream));
 				}

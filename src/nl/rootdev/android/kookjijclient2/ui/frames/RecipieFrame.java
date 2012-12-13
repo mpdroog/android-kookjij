@@ -37,6 +37,7 @@ public class RecipieFrame extends AbstractLoadingFrame  {
 			@Override
 			protected void onPostExecute(String result) {
 				if(getException() == null) {
+					stopAbstractLoadingFrame();
 					final RecipieFragment home = new RecipieFragment(_recipie, _image);
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 					action2.replace(getFragmentId(), home).commit();

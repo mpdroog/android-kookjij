@@ -41,6 +41,7 @@ public class CategoryFrame extends AbstractLoadingFrame {
 			@Override
 			protected void onPostExecute(String result) {
 				if(getException() == null) {
+					stopAbstractLoadingFrame();
 					final GridFragment home = new GridFragment(_category);
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 					action2.replace(getFragmentId(), home).commit();
