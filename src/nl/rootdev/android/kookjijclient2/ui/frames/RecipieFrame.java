@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import nl.rootdev.android.kookjijclient2.datastructures.IRecipie;
 import nl.rootdev.android.kookjijclient2.datastructures.pb.Recipie;
 import nl.rootdev.android.kookjijclient2.ui.fragments.RecipieFragment;
 import nl.rootdev.android.kookjijclient2.ui.tasks.AsyncDownload;
@@ -31,14 +32,31 @@ import com.dyuproject.protostuff.runtime.RuntimeSchema;
 public class RecipieFrame extends AbstractLoadingFrame  {	
 	protected void startAsyncDownload(Bundle savedInstanceState) throws MalformedURLException {
 		_download = new AsyncDownload(getSherlockActivity().getCacheDir().toString()) {
-			private Recipie _recipie;
+			private IRecipie _recipie;
 			private Bitmap _image;
 			
 			@Override
 			protected void onPostExecute(String result) {
 				if(getException() == null) {
 					stopAbstractLoadingFrame();
-					final RecipieFragment home = new RecipieFragment(_recipie, _image);
+					final RecipieFragment home = new RecipieFragment();
+					Bundle bundle = new Bundle();
+					{
+						/** Warning, not ALL arguments are passed!! */
+						bundle.putLong("id", _recipie.getId());
+						bundle.putString("name", _recipie.getName());
+						bundle.putInt("preparationTime", _recipie.getPreparationTime());
+						bundle.putString("description", _recipie.getDescription());
+						bundle.putInt("rating", _recipie.getRating());
+						bundle.putInt("serves", _recipie.getServes());
+						bundle.putString("ingredients", _recipie.getIngredients());
+						bundle.putString("comment", _recipie.getComment());
+						bundle.putString("introduction", _recipie.getIntroduction());
+						
+					}
+					home.setArguments(bundle);
+					home.setImage(_image);
+					
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 					action2.replace(getFragmentId(), home).commit();
 				} else {

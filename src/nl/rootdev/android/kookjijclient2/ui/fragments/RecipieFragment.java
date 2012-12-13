@@ -4,7 +4,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import nl.rootdev.android.kookjijclient2.R;
-import nl.rootdev.android.kookjijclient2.datastructures.IRecipie;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -26,15 +25,12 @@ import com.actionbarsherlock.app.SherlockFragment;
  */
 public class RecipieFragment extends SherlockFragment implements OnClickListener {
 	/** Downloaded image from the webserver */
-	private final Bitmap _image;
-	/** Downloaded recipie from the webserver */
-	private final IRecipie _recipie;
+	private Bitmap _image;
 	
-	public RecipieFragment(IRecipie recipie, Bitmap image) {
+	public void setImage(Bitmap image) {
 		_image = image;
-		_recipie = recipie;
 	}
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +48,7 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		Bundle bundle = getArguments();
 
 		final TextView introduction = (TextView) getSherlockActivity().findViewById(R.id.introduction);
 		final TextView description = (TextView) getSherlockActivity().findViewById(R.id.description);
@@ -59,19 +56,19 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 		final ImageView preview = (ImageView) getSherlockActivity().findViewById(R.id.preview);
 		final TextView titleMeta = (TextView) getSherlockActivity().findViewById(R.id.title_meta);
 		
-		title.setText(_recipie.getName());
-		introduction.setText(Html.fromHtml(_recipie.getIngredients()), TextView.BufferType.SPANNABLE);
-		description.setText(Html.fromHtml(_recipie.getDescription()), TextView.BufferType.SPANNABLE);
+		title.setText(bundle.getString("name"));
+		introduction.setText(Html.fromHtml(bundle.getString("ingredients")), TextView.BufferType.SPANNABLE);
+		description.setText(Html.fromHtml(bundle.getString("description")), TextView.BufferType.SPANNABLE);
 		titleMeta.setText(Html.fromHtml(
-			"Personen: " + _recipie.getServes() +
-			"<br />Bereidingstijd: " + _recipie.getPreparationTime() + "minuten"
+			"Personen: " + bundle.getInt("serves") +
+			"<br />Bereidingstijd: " + bundle.getInt("preparationTime") + "minuten"
 		), TextView.BufferType.SPANNABLE);
 		
-		if (_recipie.getComment() != null) {
+		if (bundle.getString("comment") != null) {
 			final TextView commentTitle = (TextView) getSherlockActivity().findViewById(R.id.comment_title);
 			final TextView comment = (TextView) getSherlockActivity().findViewById(R.id.comment);
 			commentTitle.setVisibility(View.VISIBLE);
-			comment.setText(Html.fromHtml(_recipie.getComment()), TextView.BufferType.SPANNABLE);
+			comment.setText(Html.fromHtml(bundle.getString("comment")), TextView.BufferType.SPANNABLE);
 		}
 		if (_image != null) {
 			preview.setImageBitmap(_image);

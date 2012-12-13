@@ -41,7 +41,16 @@ public class ColumnFrame extends AbstractLoadingFrame  {
 			protected void onPostExecute(String result) {
 				if(getException() == null) {
 					stopAbstractLoadingFrame();
-					final ColumnFragment home = new ColumnFragment(_column);
+					final ColumnFragment home = new ColumnFragment();
+					
+					Bundle bundle = new Bundle();
+					{
+						/** Warning, not ALL arguments are passed!! */
+						bundle.putString("name", _column.getName());
+						bundle.putString("text", _column.getText());
+					}
+					home.setArguments(bundle);
+
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 					action2.replace(getFragmentId(), home).commit();
 				} else {

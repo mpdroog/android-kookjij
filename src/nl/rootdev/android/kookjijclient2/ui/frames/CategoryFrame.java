@@ -6,6 +6,7 @@ import java.net.URL;
 
 import nl.rootdev.android.kookjijclient2.datastructures.ICategory;
 import nl.rootdev.android.kookjijclient2.datastructures.pb.Category;
+import nl.rootdev.android.kookjijclient2.datastructures.pb.CategoryItem;
 import nl.rootdev.android.kookjijclient2.ui.fragments.GridFragment;
 import nl.rootdev.android.kookjijclient2.ui.tasks.AsyncDownload;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
@@ -42,7 +43,27 @@ public class CategoryFrame extends AbstractLoadingFrame {
 			protected void onPostExecute(String result) {
 				if(getException() == null) {
 					stopAbstractLoadingFrame();
-					final GridFragment home = new GridFragment(_category);
+					final GridFragment home = new GridFragment();
+					Bundle bundle = new Bundle();
+					{
+						String[] names = new String[_category.getItemsList().size()];
+						long[] lastEdits = new long[_category.getItemsList().size()];
+						long[] ids = new long[_category.getItemsList().size()];
+						
+						int i = 0;
+						for (CategoryItem item : _category.getItemsList()) {
+							names[i] = item.getName();
+							lastEdits[i] = item.getLastedit();
+							ids[i] = item.getId();
+							i++;
+						}
+						
+						bundle.putStringArray("names", names);
+						bundle.putLongArray("lastEdits", lastEdits);
+						bundle.putLongArray("ids", ids);
+					}
+					home.setArguments(bundle);
+					
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 					action2.replace(getFragmentId(), home).commit();
 				} else {

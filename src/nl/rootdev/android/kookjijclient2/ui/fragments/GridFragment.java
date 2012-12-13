@@ -2,8 +2,6 @@ package nl.rootdev.android.kookjijclient2.ui.fragments;
 
 import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.RecipieActivity;
-import nl.rootdev.android.kookjijclient2.datastructures.ICategory;
-import nl.rootdev.android.kookjijclient2.datastructures.ICategoryItem;
 import nl.rootdev.android.kookjijclient2.ui.ImageTextTuple;
 import nl.rootdev.android.kookjijclient2.ui.ListImageTextAdapter;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
@@ -19,11 +17,6 @@ import android.widget.GridView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class GridFragment extends SherlockFragment implements OnItemClickListener {
-	private ICategory _category;
-	
-	public GridFragment(ICategory category) {
-		_category = category;
-	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,16 +41,20 @@ public class GridFragment extends SherlockFragment implements OnItemClickListene
 		GridView view = (GridView) inflater.inflate(R.layout.grid, container, false);
 		ListImageTextAdapter listItems = new ListImageTextAdapter();
 		
-		if (_category.getItemsList() != null) {
-			for (ICategoryItem category : _category.getItemsList()) {
-				listItems.addImageText(new ImageTextTuple(
-					0,
-					category.getName(),
-					AndroidUtilities.getInstance().getDate(category.getLastedit()),
-					category.getId()
-				));
-			}
+		Bundle bundle = getArguments();
+		String[] names = bundle.getStringArray("names");
+		long[] lastEdits = bundle.getLongArray("lastEdits");
+		long[] ids = bundle.getLongArray("ids");
+		
+		for (int i = 0; i < names.length; i++) {
+			listItems.addImageText(new ImageTextTuple(
+				0,
+				names[i],
+				AndroidUtilities.getInstance().getDate(lastEdits[i]),
+				ids[i]
+			));
 		}
+
 		view.setAdapter(listItems);
 		view.setOnItemClickListener(this);
 		return view;
