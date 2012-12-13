@@ -10,12 +10,12 @@ import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 
-public class Main extends SherlockFragmentActivity implements SearchPerformListener {
+public class Main extends LicenseCheckActivity implements SearchPerformListener {
 	private TabsAdapter tabAdapter;
 	private ViewPager pager;
 
@@ -37,6 +37,10 @@ public class Main extends SherlockFragmentActivity implements SearchPerformListe
     	tabAdapter.addTab(bar.newTab().setText("Column"), ColumnFrame.class, null);
     	//tabAdapter.addTab(bar.newTab().setText("Favorieten"), FavoriteGridFragment.class, null);    	
     	setContentView(pager);
+    	
+    	Toast.makeText(this, R.string.checking_license, Toast.LENGTH_SHORT).show();
+        // Check the license
+        checkLicense();
     }
 
     @Override

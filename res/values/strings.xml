@@ -84,4 +84,15 @@
         <item>Koud</item>
         <item>Warm</item>
     </string-array>
+    
+	<string name="check_license">Controleer licentie</string>
+	<string name="checking_license">Bezig met licentie controleren&#8230;</string>
+	<string name="dont_allow">Weiger de gebruikersactie</string>
+	<string name="allow">Sta de gebruikersactie toe</string>
+	<string name="application_error">Applicatie error: %1$s</string>
+	<!-- Unlicensed dialog messages -->
+	<string name="unlicensed_dialog_title">Programma niet gekocht</string>
+	<string name="unlicensed_dialog_body">Deze applicatie is niet aangeschaft. Gelieve me te kopen in Google Play.</string>
+	<string name="buy_button">Koop me</string>
+	<string name="quit_button">Stop me</string>
 </resources>
