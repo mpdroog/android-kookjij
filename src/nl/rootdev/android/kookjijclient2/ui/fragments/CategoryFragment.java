@@ -6,6 +6,7 @@ import nl.rootdev.android.kookjijclient2.ui.ImageTextTuple;
 import nl.rootdev.android.kookjijclient2.ui.ListImageTextAdapter;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import android.widget.GridView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class GridFragment extends SherlockFragment implements OnItemClickListener {
+public class CategoryFragment extends SherlockFragment implements OnItemClickListener {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -25,38 +26,46 @@ public class GridFragment extends SherlockFragment implements OnItemClickListene
 	}
 	
 	@Override
-	public void onDestroyView() {
-		// Close all connections from the background processes
-		super.onDestroyView();
-	}
-	
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		GridView grid = (GridView) getView().findViewById(R.id.gridView1);
+		if (grid != null) {
+			if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				grid.setColumnWidth(320);
+			} else {
+				grid.setColumnWidth(240);
+			}
+		}
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		GridView view = (GridView) inflater.inflate(R.layout.grid, container, false);
-		ListImageTextAdapter listItems = new ListImageTextAdapter();
+		View view;
 		
 		Bundle bundle = getArguments();
 		String[] names = bundle.getStringArray("names");
-		long[] lastEdits = bundle.getLongArray("lastEdits");
-		long[] ids = bundle.getLongArray("ids");
-		
-		for (int i = 0; i < names.length; i++) {
-			listItems.addImageText(new ImageTextTuple(
-				0,
-				names[i],
-				AndroidUtilities.getInstance().getDate(lastEdits[i]),
-				ids[i]
-			));
+		if (names != null) {
+			GridView grid = (GridView) inflater.inflate(R.layout.grid, container, false);
+			ListImageTextAdapter listItems = new ListImageTextAdapter();
+			long[] lastEdits = bundle.getLongArray("lastEdits");
+			long[] ids = bundle.getLongArray("ids");
+			
+			for (int i = 0; i < names.length; i++) {
+				listItems.addImageText(new ImageTextTuple(
+					0,
+					names[i],
+					AndroidUtilities.getInstance().getDate(lastEdits[i]),
+					ids[i]
+				));
+				grid.setAdapter(listItems);
+				grid.setOnItemClickListener(this);
+			}
+			view = grid;
+		} else {
+			view = inflater.inflate(R.layout.category_empty, container, false);
 		}
-
-		view.setAdapter(listItems);
-		view.setOnItemClickListener(this);
+		
 		return view;
 	}
 

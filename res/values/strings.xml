@@ -7,6 +7,7 @@
     
     <string name="tab_category">Categorieën</string>
     <string name="tab_recipie_day">Recept v/d dag</string>
+    <string name="tab_recipy">Recept</string>
     
     <string name="menu_item_search_action_hint">Zoekterm</string>
     <string name="menu_item_search_action_menu_text">Search</string>    
@@ -25,6 +26,8 @@
     <string name="recipie_ingredients">Ingrediënten</string>
     <string name="recipie_preparation">Bereiding</string>
     <string name="recipie_comment">Opmerking</string>
+
+    <string name="category_empty">Er zijn geen recepten in deze categorie.</string>
     
     <string-array name="categories">
         <item>Bijgerechten</item>

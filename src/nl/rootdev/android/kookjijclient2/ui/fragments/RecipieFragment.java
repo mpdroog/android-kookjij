@@ -26,9 +26,11 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class RecipieFragment extends SherlockFragment implements OnClickListener {
 	/** Downloaded image from the webserver */
 	private Bitmap _image;
+	private boolean _calledSetImage;
 	
 	public void setImage(Bitmap image) {
 		_image = image;
+		_calledSetImage = true;		
 	}
 	
 	@Override
@@ -70,10 +72,16 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 			commentTitle.setVisibility(View.VISIBLE);
 			comment.setText(Html.fromHtml(bundle.getString("comment")), TextView.BufferType.SPANNABLE);
 		}
-		if (_image != null) {
+		
+		if (_image == null && _calledSetImage) {
+			// No image available
+			preview.setImageResource(R.drawable.ic_launcher);
+		} else if (_image != null) {
+			// Set loaded image
 			preview.setImageBitmap(_image);
 		}
 		else {
+			// Set 'click to load' image
 			preview.setImageResource(R.drawable.logo_gray);
 		}
 		preview.setOnClickListener(this);
@@ -93,8 +101,8 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 	 */
 	@Override
 	public void onClick(View v) {
-		if (_image != null) {
-			// No need to 'download image' if already loaded
+		if (_image != null || _calledSetImage) {
+			// No need to 'download image' if already loaded or 'no available'
 			return;
 		}
 		final ImageView preview = (ImageView) getSherlockActivity().findViewById(R.id.preview);
@@ -105,6 +113,9 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 			protected void onPostExecute(Void result) {
 				if(_bitmap != null) {
 					preview.setImageBitmap(_bitmap);
+				} else {
+					// Set no image picture
+					preview.setImageResource(R.drawable.ic_launcher);
 				}
 			}
 			
@@ -112,7 +123,7 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 			protected Void doInBackground(Void... params) {
 				URLConnection img;
 				try {
-					img = new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=h").openConnection();
+					img = new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=" + getArguments().getLong("id")).openConnection();
 					_bitmap = BitmapFactory.decodeStream(img.getInputStream());
 
 				} catch (Exception e) {
