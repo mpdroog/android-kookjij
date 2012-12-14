@@ -6,6 +6,7 @@ import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
 import nl.rootdev.android.kookjijclient2.ui.frames.RecipieFrame;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
@@ -59,6 +60,10 @@ public class RecipieActivity extends SherlockFragmentActivity implements SearchP
 
 	@Override
 	public void performSearch(String query) {
-		throw new Error("Should not come here?");
-	}    
+		Intent intent = new Intent(this, SearchActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("query", query);
+		intent.putExtras(bundle);
+		startActivity(intent);
+	}
 }

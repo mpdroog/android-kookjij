@@ -17,7 +17,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
-import android.view.ViewGroup;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -178,7 +178,7 @@ public class AndroidUtilities {
 	}
 	
 	@SuppressLint("SetJavaScriptEnabled")
-	public RelativeLayout injectAdvertisement(Context context, ViewGroup child)
+	public RelativeLayout injectAdvertisement(Context context, View child)
 	{
     	RelativeLayout adLayout = new RelativeLayout(context);
     	adLayout.addView(child);

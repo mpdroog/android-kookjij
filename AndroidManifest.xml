@@ -46,5 +46,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CategoryMain"  />
         </activity>        
+        
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_main" >
+        </activity>        
     </application>
 </manifest>

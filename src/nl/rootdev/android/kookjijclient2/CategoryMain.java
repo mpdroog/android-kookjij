@@ -6,6 +6,7 @@ import nl.rootdev.android.kookjijclient2.ui.fixes.SearchPerformListener;
 import nl.rootdev.android.kookjijclient2.ui.frames.CategoryFrame;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
@@ -69,6 +70,10 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
 
 	@Override
 	public void performSearch(String query) {
-		System.out.println(query);
+		Intent intent = new Intent(this, SearchActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("query", query);
+		intent.putExtras(bundle);
+		startActivity(intent);
 	}
 }
