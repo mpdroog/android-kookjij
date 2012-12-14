@@ -11,19 +11,19 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.ServerManagedPolicy;
  
-public abstract class LicenseCheckActivity extends SherlockFragmentActivity {
+public abstract class LicenseCheckActivity extends SherlockActivity {
  
     static boolean licensed = true;
     static boolean didCheck = false;
     static boolean checkingLicense = false;
-    static final String BASE64_PUBLIC_KEY = "";
-    
+    static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkP83gDTuhMRtzXSBLiubFlrAhEi5U4eLYYqi7LabjNtpCzEmzchqOZ8ke3sDuRJD4uOW8ZFI+f+/Wb6S6ZdP2ylKzsnL2bnUr0LqslA531CojRW8qe6LeN6ai0SlV+QOKagg3MxI2ym6XKJOt/LimMslQYNNDEwBEVDs3YW6KdQALrhSLFQKXzJjOkW+tGxEkb0/6E92aENZdJYmUJQ4sa/OpOl+/4kbo9TRWkuWwWAK61GRO/uLDe6SuBywaKGfh3kCakH2H8of6vLNXRT+w4IKvd6b+IfSmDj97zXq1wNCtWmQMo6Pw0C0L+r0ADvEVXhN/UM10ykHwMwRwL6HMQIDAQAB";
+
     LicenseCheckerCallback mLicenseCheckerCallback;
     LicenseChecker mChecker;
  
@@ -33,8 +33,8 @@ public abstract class LicenseCheckActivity extends SherlockFragmentActivity {
  
     // REPLACE WITH YOUR OWN SALT , THIS IS FROM EXAMPLE
     private static final byte[] SALT = new byte[]{
-            -46, 65, 30, -128, -103, -57, 74, -64, 51, 88, -95, -45, 77, -117, -36, -113, -11, 32, -64,
-            89
+            -41, 55, 80, -8, -01, -93, 01, -64, 51, 88, -95, -45, 77, -35, -36, -120, -11, 32, -88,
+            20
     };
  
     private void displayResult(final String result) {
@@ -46,6 +46,8 @@ public abstract class LicenseCheckActivity extends SherlockFragmentActivity {
             }
         });
     }
+    
+    protected abstract void updateSuccess();
  
     protected void doCheck() {
  
@@ -92,7 +94,7 @@ public abstract class LicenseCheckActivity extends SherlockFragmentActivity {
             licensed = true;
             checkingLicense = false;
             didCheck = true;
- 
+            updateSuccess();
         }
  
         public void dontAllow(int code) {
@@ -125,7 +127,7 @@ public abstract class LicenseCheckActivity extends SherlockFragmentActivity {
             // This is a polite way of saying the developer made a mistake
             // while setting up or calling the license checker library.
             // Please examine the error code and fix the error.
-            String result = String.format(getString(R.string.application_error), errorCode);
+            //String result = String.format(getString(R.string.application_error), errorCode);
             checkingLicense = false;
             didCheck = true;
  
@@ -164,13 +166,20 @@ public abstract class LicenseCheckActivity extends SherlockFragmentActivity {
                 .create();
  
     }
- 
+    
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+    	super.onStop();
         if (mChecker != null) {
             Log.i("LIcense", "distroy checker");
             mChecker.onDestroy();
-        }
+            try {
+            	unbindService(mChecker);
+            }
+            catch(IllegalArgumentException e) {
+            	// Looks like difference between Android versions
+            	// so unbind and ignore any errors..
+            }
+        }    	
     }
 }

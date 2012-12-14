@@ -15,17 +15,20 @@
         android:label="@string/app_name"
         android:hardwareAccelerated="true"
         android:theme="@style/Christmas">
+
         <activity
-            android:name=".Main"
+            android:name=".LoadApplication"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-			<meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.actionbarsherlock.app.SherlockActivity" />
-            </activity>
+        </activity>
+                
+        <activity
+            android:name=".Main"
+            android:label="@string/title_activity_main" >
+        </activity>
             
         <activity
             android:launchMode="standard"
