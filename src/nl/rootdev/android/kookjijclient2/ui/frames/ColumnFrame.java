@@ -52,7 +52,7 @@ public class ColumnFrame extends AbstractLoadingFrame  {
 					home.setArguments(bundle);
 
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
-					action2.replace(getFragmentId(), home).commit();
+					action2.replace(getFragmentId(), home).commitAllowingStateLoss();
 				} else {
 					openError(getException());
 				}
