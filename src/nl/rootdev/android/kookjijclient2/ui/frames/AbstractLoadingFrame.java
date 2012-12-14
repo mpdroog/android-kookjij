@@ -237,6 +237,7 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		setRetainInstance(true);
 		View item = inflater.inflate(R.layout.loadingframe, container, false);
 		item.setId(getFragmentId());
 		return item;
