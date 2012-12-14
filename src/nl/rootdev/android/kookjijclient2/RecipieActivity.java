@@ -36,7 +36,7 @@ public class RecipieActivity extends SherlockFragmentActivity implements SearchP
 		tabAdapter = new TabsAdapter(this, pager);
 		tabAdapter.addTab(bar.newTab().setText(R.string.tab_recipy), RecipieFrame.class, bundle, true);
     	//tabAdapter.addTab(bar.newTab().setText("Comments"), ColumnFrame.class, null);
-    	setContentView(pager);
+    	setContentView(AndroidUtilities.getInstance().injectAdvertisement(this, pager));
     }
 
     @Override

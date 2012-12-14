@@ -8,12 +8,18 @@ import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.zip.GZIPInputStream;
 
+import nl.rootdev.android.kookjijclient2.R;
+import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -169,6 +175,28 @@ public class AndroidUtilities {
 			output = pb;
 		}
 		return output;
+	}
+	
+	@SuppressLint("SetJavaScriptEnabled")
+	public RelativeLayout injectAdvertisement(Context context, ViewGroup child)
+	{
+    	RelativeLayout adLayout = new RelativeLayout(context);
+    	adLayout.addView(child);
+    	
+    	WebView ad = new WebView(context);
+    	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 95);
+    	params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+    	ad.setLayoutParams(params);
+    	ad.getSettings().setJavaScriptEnabled(true);
+    	ad.loadUrl(context.getString(R.string.ad_url));
+    	ad.setId(20);
+    	adLayout.addView(ad);
+    	
+    	RelativeLayout.LayoutParams contentParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);    		
+    	contentParams.addRule(RelativeLayout.ABOVE, 20);
+    	child.setLayoutParams(contentParams);
+    	
+    	return adLayout;
 	}
 	
 	public synchronized int getUniqueNumber()

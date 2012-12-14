@@ -45,7 +45,7 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
 			bundle.putString("name", tabName);
 	    	tabAdapter.addTab(bar.newTab().setText(tabName), CategoryFrame.class, bundle);
 		}
-    	setContentView(pager);        
+    	setContentView(AndroidUtilities.getInstance().injectAdvertisement(this, pager));
     }
 
     @Override
