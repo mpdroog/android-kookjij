@@ -16,10 +16,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
@@ -187,7 +189,7 @@ public class AndroidUtilities {
     	RelativeLayout adLayout = new RelativeLayout(context);
     	adLayout.addView(child);
     	
-    	WebView ad = new WebView(context);
+/*    	WebView ad = new WebView(context);
     	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 95);
     	params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
     	ad.setLayoutParams(params);
@@ -198,18 +200,16 @@ public class AndroidUtilities {
     	
     	RelativeLayout.LayoutParams contentParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);    		
     	contentParams.addRule(RelativeLayout.ABOVE, 20);
-    	child.setLayoutParams(contentParams);
+    	child.setLayoutParams(contentParams);*/
     	
     	return adLayout;
 	}
 	
 	public void setChristmasTheme(ActionBar bar, Context context)
 	{
-        BitmapDrawable background = new BitmapDrawable(
-    		BitmapFactory.decodeResource(context.getResources(), R.drawable.christmas)
-		);
-        background.setTileModeX(android.graphics.Shader.TileMode.CLAMP);
-        bar.setBackgroundDrawable(background);		
+        BitmapDrawable background = new BitmapDrawable(context.getResources(), BitmapFactory.decodeResource(context.getResources(), R.drawable.christmas));
+        background.setGravity(Gravity.LEFT);
+        bar.setBackgroundDrawable(background);
 	}
 	
 	public synchronized int getUniqueNumber()

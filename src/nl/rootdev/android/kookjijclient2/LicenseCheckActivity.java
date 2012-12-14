@@ -58,9 +58,7 @@ public abstract class LicenseCheckActivity extends SherlockActivity {
         mChecker.checkAccess(mLicenseCheckerCallback);
     }
  
-    protected void checkLicense() {
- 
-        Log.i("LICENSE", "checkLicense");
+    protected void checkLicense() { 
         mHandler = new Handler();
  
         // Try to use more data here. ANDROID_ID is a single point of attack.
@@ -84,7 +82,6 @@ public abstract class LicenseCheckActivity extends SherlockActivity {
     protected class MyLicenseCheckerCallback implements LicenseCheckerCallback {
  
         public void allow(int code) {
-            Log.i("LICENSE", "allow");
             if (isFinishing()) {
                 // Don't update UI if Activity is finishing.
                 return;
@@ -98,7 +95,6 @@ public abstract class LicenseCheckActivity extends SherlockActivity {
         }
  
         public void dontAllow(int code) {
-            Log.i("LICENSE", "dontAllow");
             if (isFinishing()) {
                 // Don't update UI if Activity is finishing.
                 return;
@@ -118,7 +114,6 @@ public abstract class LicenseCheckActivity extends SherlockActivity {
         }
  
         public void applicationError(int errorCode) {
-            Log.i("LICENSE", "error: " + errorCode);
             if (isFinishing()) {
                 // Don't update UI if Activity is finishing.
                 return;
@@ -171,7 +166,6 @@ public abstract class LicenseCheckActivity extends SherlockActivity {
     protected void onStop() {
     	super.onStop();
         if (mChecker != null) {
-            Log.i("LIcense", "distroy checker");
             mChecker.onDestroy();
             try {
             	unbindService(mChecker);

@@ -33,9 +33,7 @@ public class ProgressInputStream extends FilterInputStream {
 	 * @return
 	 */
 	public int getProgress() {
-		System.out.println("Req progress");
 		synchronized (_readBytes) {
-			System.out.println("Yeahaa?");
 			return (int) (_readBytes / _maxBytes) * 100;
 		}
 	}

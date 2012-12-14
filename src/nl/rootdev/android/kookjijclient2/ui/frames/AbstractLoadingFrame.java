@@ -53,10 +53,7 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 			final TextView percentage = (TextView)getView().findViewById(R.id.percentage);
 
 			int currentPercentage = getLoadingPercentage();
-			if(percentage == null) {
-				// TODO: Investigate why NULL?
-				System.out.println("Percentage is NULL? Bug?");
-			} else {
+			if(percentage != null) {
 				if(currentPercentage - _lastPercentage >= 10) {
 					// Normal speed
 					percentage.setText(currentPercentage + "%");
