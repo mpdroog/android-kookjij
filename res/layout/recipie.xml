@@ -14,6 +14,7 @@
         android:scaleType="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#9d2d2b"
         android:src="@drawable/recipie_header" />
 
 	    <LinearLayout
