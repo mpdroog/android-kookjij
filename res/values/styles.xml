@@ -11,8 +11,8 @@
         <item name="titleTextStyle">@style/Widget.Styled.ActionBar.TitleTextStyle</item>
         <item name="android:titleTextStyle">@style/Widget.Styled.ActionBar.TitleTextStyle</item>
 
-     	<item name="background">@drawable/christmas</item>
-	    <item name="android:background">@drawable/christmas</item>
+     	<item name="background">#8a201a</item>
+	    <item name="android:background">#8a201a</item>
 	</style>
 	
     <style name="Widget.Styled.ActionBar.TitleTextStyle" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">

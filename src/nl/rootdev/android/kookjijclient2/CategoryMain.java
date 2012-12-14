@@ -38,6 +38,7 @@ public class CategoryMain extends SherlockFragmentActivity implements SearchPerf
         bar.setDisplayShowHomeEnabled(true);
         bar.setDisplayHomeAsUpEnabled(true);        
         bar.setTitle(bundle.getString("title"));
+    	AndroidUtilities.getInstance().setChristmasTheme(bar, getApplicationContext());
 
 		pager = new ViewPager(this);
 		pager.setId(R.id.normal);

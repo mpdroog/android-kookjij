@@ -9,6 +9,7 @@ import nl.rootdev.android.kookjijclient2.ui.fixes.ExtendedSherlockFragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -60,6 +61,12 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 	        })
 	        .create();
     	dialog.show();
+    	
+    	dialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+			}
+		});
 
         new AsyncTask<Void, Void, Void>() {
         	private Bitmap _image;

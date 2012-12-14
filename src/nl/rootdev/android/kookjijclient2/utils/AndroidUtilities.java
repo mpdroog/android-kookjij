@@ -8,18 +8,22 @@ import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.zip.GZIPInputStream;
 
+import com.actionbarsherlock.app.ActionBar;
+
 import nl.rootdev.android.kookjijclient2.R;
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 /**
@@ -197,6 +201,15 @@ public class AndroidUtilities {
     	child.setLayoutParams(contentParams);
     	
     	return adLayout;
+	}
+	
+	public void setChristmasTheme(ActionBar bar, Context context)
+	{
+        BitmapDrawable background = new BitmapDrawable(
+    		BitmapFactory.decodeResource(context.getResources(), R.drawable.christmas)
+		);
+        background.setTileModeX(android.graphics.Shader.TileMode.CLAMP);
+        bar.setBackgroundDrawable(background);		
 	}
 	
 	public synchronized int getUniqueNumber()

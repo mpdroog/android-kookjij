@@ -29,6 +29,7 @@ public class RecipieActivity extends SherlockFragmentActivity implements SearchP
         bar.setDisplayShowTitleEnabled(true);
         bar.setDisplayShowHomeEnabled(true);
         bar.setDisplayHomeAsUpEnabled(true);
+    	AndroidUtilities.getInstance().setChristmasTheme(bar, getApplicationContext());
         
 		pager = new ViewPager(this);
 		pager.setId(R.id.normal);

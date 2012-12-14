@@ -22,6 +22,7 @@ public class SearchActivity extends SherlockFragmentActivity {
         bar.setDisplayShowHomeEnabled(true);
         bar.setDisplayHomeAsUpEnabled(true);
         setTitle(getIntent().getExtras().getString("query"));
+    	AndroidUtilities.getInstance().setChristmasTheme(bar, getApplicationContext());
 
 		ViewPager pager = new ViewPager(this);
 		pager.setId(R.id.normal);
