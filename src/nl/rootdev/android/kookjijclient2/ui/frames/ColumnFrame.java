@@ -83,5 +83,5 @@ public class ColumnFrame extends AbstractLoadingFrame  {
 	@Override
 	protected int getFragmentId() {
 		return 2;
-	}		
+	}	
 }

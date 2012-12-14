@@ -4,6 +4,7 @@ import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.RecipieActivity;
 import nl.rootdev.android.kookjijclient2.ui.ImageTextTuple;
 import nl.rootdev.android.kookjijclient2.ui.ListImageTextAdapter;
+import nl.rootdev.android.kookjijclient2.ui.fixes.ExtendedSherlockFragment;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,9 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
-public class CategoryFragment extends SherlockFragment implements OnItemClickListener {
+public class CategoryFragment extends ExtendedSherlockFragment implements OnItemClickListener {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class CategoryFragment extends SherlockFragment implements OnItemClickLis
 			Bundle savedInstanceState) {
 		View view;
 		
-		Bundle bundle = getArguments();
+		Bundle bundle = getBundle(savedInstanceState);
 		String[] names = bundle.getStringArray("names");
 		if (names != null) {
 			GridView grid = (GridView) inflater.inflate(R.layout.grid, container, false);

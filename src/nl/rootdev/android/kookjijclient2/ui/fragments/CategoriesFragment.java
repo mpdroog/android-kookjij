@@ -2,6 +2,7 @@ package nl.rootdev.android.kookjijclient2.ui.fragments;
 
 import nl.rootdev.android.kookjijclient2.CategoryMain;
 import nl.rootdev.android.kookjijclient2.R;
+import nl.rootdev.android.kookjijclient2.ui.fixes.ExtendedSherlockFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,9 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
-public class CategoriesFragment extends SherlockFragment implements OnItemClickListener {
+public class CategoriesFragment extends ExtendedSherlockFragment implements OnItemClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

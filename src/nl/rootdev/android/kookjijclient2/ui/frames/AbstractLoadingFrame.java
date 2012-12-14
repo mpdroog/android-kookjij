@@ -103,8 +103,10 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	
 	@Override
 	public void onDestroyView() {
-		_download.cancel(true);
-		_timer.removeCallbacks(_updateTask);
+		if (_download != null) {
+			_download.cancel(true);
+			_timer.removeCallbacks(_updateTask);
+		}
 		super.onDestroyView();
 	}
 	
@@ -126,12 +128,13 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	}
 	
 	protected void stopAbstractLoadingFrame() {
-		LinearLayout loading = (LinearLayout) getView().findViewById(R.id.loading);
-		LinearLayout error = (LinearLayout) getView().findViewById(R.id.error);		
-		_timer.removeCallbacks(_updateTask);
-		
-		loading.setVisibility(View.GONE);
-		error.setVisibility(View.GONE);
+		if (getView() != null) {
+			LinearLayout loading = (LinearLayout) getView().findViewById(R.id.loading);
+			LinearLayout error = (LinearLayout) getView().findViewById(R.id.error);		
+			loading.setVisibility(View.GONE);
+			error.setVisibility(View.GONE);			
+		}
+		_timer.removeCallbacks(_updateTask);		
 	}
 	
 	protected void openError(Exception e) {
@@ -156,8 +159,19 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	protected abstract int getFragmentId();
 	
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean("loaded", true);
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if (savedInstanceState != null) {
+			// Already loaded, do nothing
+			((LinearLayout) getView().findViewById(R.id.loading)).setVisibility(View.GONE);
+			return;
+		}
 		
 		// Loading bindings
 		{

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import nl.rootdev.android.kookjijclient2.R;
+import nl.rootdev.android.kookjijclient2.ui.fixes.ExtendedSherlockFragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -16,17 +17,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
 /**
  * Fragment for showing a Recipie.
  * 
  * @author mark
  */
-public class RecipieFragment extends SherlockFragment implements OnClickListener {
+public class RecipieFragment extends ExtendedSherlockFragment implements OnClickListener {
 	/** Downloaded image from the webserver */
 	private Bitmap _image;
 	private boolean _calledSetImage;
+	private Bundle _savedInstanceState;
 	
 	public void setImage(Bitmap image) {
 		_image = image;
@@ -38,19 +38,15 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(false);
 	}
-	
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-	}
-	
+		
 	/**
 	 * Fill the view with actual data.
 	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Bundle bundle = getArguments();
+		Bundle bundle = getBundle(savedInstanceState);
+		_savedInstanceState = bundle;
 
 		final TextView introduction = (TextView) getSherlockActivity().findViewById(R.id.introduction);
 		final TextView description = (TextView) getSherlockActivity().findViewById(R.id.description);
@@ -123,7 +119,7 @@ public class RecipieFragment extends SherlockFragment implements OnClickListener
 			protected Void doInBackground(Void... params) {
 				URLConnection img;
 				try {
-					img = new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=" + getArguments().getLong("id")).openConnection();
+					img = new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=" + _savedInstanceState.getLong("id")).openConnection();
 					_bitmap = BitmapFactory.decodeStream(img.getInputStream());
 
 				} catch (Exception e) {

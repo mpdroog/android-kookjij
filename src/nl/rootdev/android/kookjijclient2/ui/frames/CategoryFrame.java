@@ -105,5 +105,5 @@ public class CategoryFrame extends AbstractLoadingFrame {
 			_fragmentId = AndroidUtilities.getInstance().getUniqueNumber();
 		}
 		return _fragmentId;
-	}		
+	}
 }
