@@ -1,10 +1,14 @@
 package nl.rootdev.android.kookjijclient2.ui.fragments;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
 import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.ui.fixes.ExtendedSherlockFragment;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -17,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Fragment for showing a Recipie.
@@ -39,7 +44,54 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(false);
 	}
-		
+	
+    protected Dialog openPopin() {
+    	final ImageView image = new ImageView(getSherlockActivity());
+    	image.setImageResource(R.drawable.logo);
+    	
+        // We have only one dialog.
+    	final AlertDialog dialog = new AlertDialog.Builder(getSherlockActivity())
+	        .setTitle(getString(R.string.loading_image))
+	        .setView(image)
+	        .setPositiveButton(R.string.dialoghide, new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	                dialog.dismiss();
+	            }
+	        })
+	        .create();
+    	dialog.show();
+
+        new AsyncTask<Void, Void, Void>() {
+        	private Bitmap _image;
+        	
+        	@Override
+        	protected void onPostExecute(Void result) {
+        		super.onPostExecute(result);
+        		if (_image == null) {
+	        		dialog.setTitle(R.string.dialogerror);        			
+        		} else {
+	        		dialog.setTitle(R.string.dialogsuccess);
+	        		image.setImageBitmap(_image);
+        		}
+        	}
+        	
+        	@Override
+        	protected Void doInBackground(Void... params) {
+				URLConnection img;
+				try {
+					img = new URL("http://dev.android.kookjij.mobi/api.php?f=d&i=" + _savedInstanceState.getLong("id")).openConnection();
+					_image = BitmapFactory.decodeStream(img.getInputStream());
+
+				} catch (Exception e) {
+					// Ignore
+				}
+        		return null;
+        	}
+        }.execute();
+        
+        return null;
+    }
+	
 	/**
 	 * Fill the view with actual data.
 	 */
@@ -78,6 +130,7 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 		} else if (_image != null) {
 			// Set loaded image
 			preview.setImageBitmap(_image);
+			preview.setTag("");
 		}
 		else {
 			// Set 'click to load' image
@@ -100,17 +153,29 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 	 */
 	@Override
 	public void onClick(View v) {
-		if (_image != null || _calledSetImage) {
-			// No need to 'download image' if already loaded or 'no available'
+		final ImageView preview = (ImageView) getView().findViewById(R.id.preview);		
+		if (preview.getTag() instanceof String) {
+			openPopin();
 			return;
 		}
-		final ImageView preview = (ImageView) getView().findViewById(R.id.preview);
+
+		if (_image != null || _calledSetImage) {
+			// No need to 'download image' if already loaded or 'no available'
+	    	Toast.makeText(getSherlockActivity(), R.string.dialog_nopicture, Toast.LENGTH_SHORT).show();			
+			return;
+		}
+				
 		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 			private Bitmap _bitmap;
 
 			@Override
 			protected void onPostExecute(Void result) {
 				if(_bitmap != null) {
+					try {
+						preview.setTag(new URL("http://dev.android.kookjij.mobi/api.php?f=d&i=" + _savedInstanceState.getLong("id")));
+					} catch (MalformedURLException e) {
+						// Ignore malformed URL's won't happen (A)
+					}
 					preview.setImageBitmap(_bitmap);
 				} else {
 					// Set no image picture

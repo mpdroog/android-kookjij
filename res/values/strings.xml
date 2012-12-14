@@ -13,6 +13,12 @@
     <string name="menu_item_search_action_hint">Zoekterm</string>
     <string name="menu_item_search_action_menu_text">Search</string>    
 
+    <string name="loading_image">Ophalen van afbeelding..</string>
+    <string name="dialoghide">Sluit scherm</string>
+    <string name="dialogerror">Fout bij ophalen</string>
+    <string name="dialogsuccess">Ingezoomde afbeelding</string>
+    <string name="dialog_nopicture">Geen afbeelding om weer te geven</string>
+    
     <string name="loading">Ophalen van artikel</string>
     <string name="loading_slow">Loading from server</string>
     <string name="failedloading">Helaas, er ging iets verkeerd tijdens het ophalen van de website.</string>
