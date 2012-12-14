@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
@@ -53,7 +54,9 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 		final TextView title = (TextView) getView().findViewById(R.id.title);
 		final ImageView preview = (ImageView) getView().findViewById(R.id.preview);
 		final TextView titleMeta = (TextView) getView().findViewById(R.id.title_meta);
+		final RatingBar rating = (RatingBar) getView().findViewById(R.id.ratingBar1);
 		
+		rating.setRating( ((float)bundle.getInt("rating")) / 100);
 		title.setText(bundle.getString("name"));
 		introduction.setText(Html.fromHtml(bundle.getString("ingredients")), TextView.BufferType.SPANNABLE);
 		description.setText(Html.fromHtml(bundle.getString("description")), TextView.BufferType.SPANNABLE);
