@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.rootdev.android.kookjijclient2.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,34 +52,6 @@ public class ListImageTextAdapter extends BaseAdapter {
 		
 		final ImageView image = (ImageView) view.findViewById(R.id.result_icon);
 		image.setImageResource(R.drawable.ic_launcher);
-		
-/*		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-			private Bitmap _bitmap;
-			
-			@Override
-			protected void onPostExecute(Void result) {
-				image.setImageBitmap(_bitmap);
-			}
-			@Override
-			protected Void doInBackground(Void... params) {
-				URL ulrn;
-				try {
-					ulrn = new URL("http://www.google.nl/images/srpr/logo3w.png");
-				    HttpURLConnection con = (HttpURLConnection)ulrn.openConnection();
-				    InputStream is = con.getInputStream();		
-					_bitmap = BitmapFactory.decodeStream(is);
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				return params[0];
-			}
-		};
-		task.execute(new Void[] {null});		*/
 		
 		TextView title = (TextView) view.findViewById(R.id.result_name);
 		title.setText(tuple.getText_());

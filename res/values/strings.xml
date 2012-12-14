@@ -2,7 +2,7 @@
 
     <string name="app_name">KookJij</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">&#160;&#160;&#160;&#160;&#160;&#160;KookJij</string>
+    <string name="title_activity_main">KookJij</string>
     <string name="header">Header background</string>
     
     <string name="tab_category">Categorieën</string>
