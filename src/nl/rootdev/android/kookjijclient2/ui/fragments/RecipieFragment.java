@@ -48,11 +48,11 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 		Bundle bundle = getBundle(savedInstanceState);
 		_savedInstanceState = bundle;
 
-		final TextView introduction = (TextView) getSherlockActivity().findViewById(R.id.introduction);
-		final TextView description = (TextView) getSherlockActivity().findViewById(R.id.description);
-		final TextView title = (TextView) getSherlockActivity().findViewById(R.id.title);
-		final ImageView preview = (ImageView) getSherlockActivity().findViewById(R.id.preview);
-		final TextView titleMeta = (TextView) getSherlockActivity().findViewById(R.id.title_meta);
+		final TextView introduction = (TextView) getView().findViewById(R.id.introduction);
+		final TextView description = (TextView) getView().findViewById(R.id.description);
+		final TextView title = (TextView) getView().findViewById(R.id.title);
+		final ImageView preview = (ImageView) getView().findViewById(R.id.preview);
+		final TextView titleMeta = (TextView) getView().findViewById(R.id.title_meta);
 		
 		title.setText(bundle.getString("name"));
 		introduction.setText(Html.fromHtml(bundle.getString("ingredients")), TextView.BufferType.SPANNABLE);
@@ -63,8 +63,8 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 		), TextView.BufferType.SPANNABLE);
 		
 		if (bundle.getString("comment") != null) {
-			final TextView commentTitle = (TextView) getSherlockActivity().findViewById(R.id.comment_title);
-			final TextView comment = (TextView) getSherlockActivity().findViewById(R.id.comment);
+			final TextView commentTitle = (TextView) getView().findViewById(R.id.comment_title);
+			final TextView comment = (TextView) getView().findViewById(R.id.comment);
 			commentTitle.setVisibility(View.VISIBLE);
 			comment.setText(Html.fromHtml(bundle.getString("comment")), TextView.BufferType.SPANNABLE);
 		}
@@ -101,7 +101,7 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 			// No need to 'download image' if already loaded or 'no available'
 			return;
 		}
-		final ImageView preview = (ImageView) getSherlockActivity().findViewById(R.id.preview);
+		final ImageView preview = (ImageView) getView().findViewById(R.id.preview);
 		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 			private Bitmap _bitmap;
 

@@ -19,14 +19,15 @@ public class ColumnFragment extends ExtendedSherlockFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Bundle bundle = getBundle(savedInstanceState);
-		final TextView text = (TextView) getSherlockActivity().findViewById(R.id.column_message);
-		final TextView title = (TextView) getSherlockActivity().findViewById(R.id.column_title);
 		
+		Bundle bundle = getBundle(savedInstanceState);
+		final TextView text = (TextView) getView().findViewById(R.id.column_message);
+		final TextView title = (TextView) getView().findViewById(R.id.column_title);
+
 		title.setText(bundle.getString("name"));
-		text.setText(Html.fromHtml(bundle.getString("text")));
+		text.setText(Html.fromHtml(bundle.getString("text")));		
 	}
-	
+			
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

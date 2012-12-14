@@ -43,6 +43,10 @@ public class CategoryFragment extends ExtendedSherlockFragment implements OnItem
 		View view;
 		
 		Bundle bundle = getBundle(savedInstanceState);
+		if (bundle == null) {
+			return inflater.inflate(R.layout.category_empty, container, false);
+		}
+
 		String[] names = bundle.getStringArray("names");
 		if (names != null) {
 			GridView grid = (GridView) inflater.inflate(R.layout.grid, container, false);
