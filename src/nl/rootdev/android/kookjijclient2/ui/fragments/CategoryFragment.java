@@ -76,7 +76,9 @@ public class CategoryFragment extends ExtendedSherlockFragment implements OnItem
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ImageTextTuple item = (ImageTextTuple) parent.getItemAtPosition(position);
 		Intent i = new Intent(getSherlockActivity().getApplicationContext(), RecipieActivity.class);
-		i.putExtra("index", item.getRecipieIndex());
+		Bundle bundle = new Bundle();
+		bundle.putLong("index", item.getRecipieIndex());
+		i.putExtras(bundle);
 		startActivity(i);
 	}	
 }

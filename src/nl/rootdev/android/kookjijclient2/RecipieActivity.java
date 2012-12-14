@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class RecipieActivity extends SherlockFragmentActivity implements SearchPerformListener {
 	private TabsAdapter tabAdapter;
@@ -26,19 +27,26 @@ public class RecipieActivity extends SherlockFragmentActivity implements SearchP
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayShowTitleEnabled(true);
         bar.setDisplayShowHomeEnabled(true);
-
-        // Add recipie index
-        Bundle bundle = new Bundle();
-        bundle.putLong("index", getIntent().getLongExtra("index", 0L));
+        bar.setDisplayHomeAsUpEnabled(true);
         
 		pager = new ViewPager(this);
 		pager.setId(R.id.normal);
 		tabAdapter = new TabsAdapter(this, pager);
-		tabAdapter.addTab(bar.newTab().setText(R.string.tab_recipy), RecipieFrame.class, bundle, true);
+		tabAdapter.addTab(bar.newTab().setText(R.string.tab_recipy), RecipieFrame.class, getIntent().getExtras(), true);
     	//tabAdapter.addTab(bar.newTab().setText("Comments"), ColumnFrame.class, null);
     	setContentView(AndroidUtilities.getInstance().injectAdvertisement(this, pager));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+            	finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }    
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	super.onCreateOptionsMenu(menu);

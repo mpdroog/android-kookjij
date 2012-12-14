@@ -7,7 +7,6 @@ import nl.rootdev.android.kookjijclient2.ui.fragments.CategoriesFragment;
 import nl.rootdev.android.kookjijclient2.ui.frames.ColumnFrame;
 import nl.rootdev.android.kookjijclient2.ui.frames.RecipieFrame;
 import nl.rootdev.android.kookjijclient2.utils.AndroidUtilities;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -20,7 +19,6 @@ public class Main extends LicenseCheckActivity implements SearchPerformListener 
 	private TabsAdapter tabAdapter;
 	private ViewPager pager;
 
-    @SuppressLint("SetJavaScriptEnabled")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -40,10 +38,8 @@ public class Main extends LicenseCheckActivity implements SearchPerformListener 
     	//tabAdapter.addTab(bar.newTab().setText("Favorieten"), FavoriteGridFragment.class, null);
 
     	setContentView(AndroidUtilities.getInstance().injectAdvertisement(this, pager));
-    	if (savedInstanceState == null) {
-	    	Toast.makeText(this, R.string.checking_license, Toast.LENGTH_SHORT).show();
-	        checkLicense();
-    	}
+    	Toast.makeText(this, R.string.checking_license, Toast.LENGTH_SHORT).show();
+        checkLicense();
     }
 
     @Override
@@ -56,12 +52,6 @@ public class Main extends LicenseCheckActivity implements SearchPerformListener 
         return true;
     }
     
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-    	super.onSaveInstanceState(outState);
-    	outState.putBoolean("loaded", true);
-    }
-
 	@Override
 	public void performSearch(String query) {
 		throw new Error("Should not come here?");
