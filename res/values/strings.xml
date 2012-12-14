@@ -2,9 +2,12 @@
     <string name="ad_url">http://android.kookjij.mobi/cgi-bin/googleads.cgi</string>
     
     <string name="app_name">KookJij</string>
+    <string name="app_loading">Bezig met openen…</string>
+    
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">KookJij</string>
     <string name="header">Header background</string>
+    <string name="content_logo">Logo picture</string>
     
     <string name="tab_category">Categorieën</string>
     <string name="tab_recipie_day">Recept v/d dag</string>
@@ -18,7 +21,7 @@
     <string name="dialogerror">Fout bij ophalen</string>
     <string name="dialogsuccess">Ingezoomde afbeelding</string>
     <string name="dialog_nopicture">Geen afbeelding om weer te geven</string>
-    
+
     <string name="loading">Ophalen van artikel</string>
     <string name="loading_slow">Loading from server</string>
     <string name="failedloading">Helaas, er ging iets verkeerd tijdens het ophalen van de website.</string>
