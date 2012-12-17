@@ -66,7 +66,7 @@ public class ColumnFrame extends AbstractLoadingFrame  {
 					Schema<Column> schema = RuntimeSchema.getSchema(Column.class);
 					ProtobufIOUtil.mergeFrom(link, (Column)_column, schema);
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					setException(e);
 				}
 				
 			}

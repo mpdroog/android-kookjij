@@ -8,25 +8,22 @@ import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.zip.GZIPInputStream;
 
-import com.actionbarsherlock.app.ActionBar;
-
 import nl.rootdev.android.kookjijclient2.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.ActionBar;
 
 /**
  * Utility-class for checking Android specific stuff from the deeper

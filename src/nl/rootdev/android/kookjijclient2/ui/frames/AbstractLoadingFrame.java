@@ -87,7 +87,7 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 		
 		try {
 			startAsyncDownload(getArguments());
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 			openError(e);
 		}
 	}
@@ -152,7 +152,7 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 		}
 	}
 	
-	protected abstract void startAsyncDownload(Bundle savedInstanceState) throws MalformedURLException;
+	protected abstract void startAsyncDownload(Bundle savedInstanceState) throws Exception;
 	protected abstract int getFragmentId();
 	
 	@Override

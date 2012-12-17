@@ -81,7 +81,7 @@ public class SearchFrame extends AbstractLoadingFrame {
 					Schema<SearchRecipie> schema = RuntimeSchema.getSchema(SearchRecipie.class);
 					ProtobufIOUtil.mergeFrom(link, (SearchRecipie) _results, schema);
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					setException(e);
 				}
 				
 			}

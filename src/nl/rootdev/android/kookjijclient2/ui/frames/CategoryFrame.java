@@ -81,7 +81,7 @@ public class CategoryFrame extends AbstractLoadingFrame {
 					Schema<Category> schema = RuntimeSchema.getSchema(Category.class);
 					ProtobufIOUtil.mergeFrom(link, (Category)_category, schema);
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					setException(e);
 				}
 				
 			}

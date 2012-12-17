@@ -88,10 +88,9 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 	protected abstract void startTextDownload(InputStream connection);
 	protected abstract void getImageDownload(Bitmap image);
 
-	protected String doInBackground(URL... params) {
-		ConnectionTypes connection = AndroidUtilities.getInstance().getConnectionSpeed();
-		
+	protected String doInBackground(URL... params) {		
 		try {
+			ConnectionTypes connection = AndroidUtilities.getInstance().getConnectionSpeed();
 			// Always read text
 			{
 				URLConnection link = params[0].openConnection();
@@ -117,6 +116,10 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 			_exception = e;
 		}
 		return "";
+	}
+	
+	public void setException(Exception e) {
+		_exception = e;
 	}
 
 	public Exception getException() {

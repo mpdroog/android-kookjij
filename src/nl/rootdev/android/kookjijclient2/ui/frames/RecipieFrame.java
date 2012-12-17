@@ -73,7 +73,7 @@ public class RecipieFrame extends AbstractLoadingFrame  {
 					ProtobufIOUtil.mergeFrom(link, (Recipie)_recipie, schema);
 
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					setException(e);
 				}
 				
 			}
