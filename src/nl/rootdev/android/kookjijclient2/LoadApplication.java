@@ -26,7 +26,8 @@ public class LoadApplication extends LicenseCheckActivity {
 		setContentView(R.layout.load_app);
 		
     	Toast.makeText(this, R.string.checking_license, Toast.LENGTH_SHORT).show();
-        checkLicense();
+        //checkLicense();
+    	_validLicense = true;
 
 		_handler = new Handler();
 		_handler.postDelayed(runnable, 1000L);

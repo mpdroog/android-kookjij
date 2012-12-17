@@ -32,6 +32,8 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 	/** Exception that occured during I/O with webserver */
 	private Exception _exception;
 	
+	public final static String URL_BASE = "http://dev.android.kookjij.mobi/";
+	
 	/**
 	 * @param tempFolder Use getSherlockActivity().getCacheDir()
 	 */

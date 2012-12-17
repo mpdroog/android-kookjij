@@ -92,7 +92,7 @@ public class CategoryFrame extends AbstractLoadingFrame {
 		};
 		
 		_download.execute(new URL[] {
-			new URL("http://dev.android.kookjij.mobi/api.php?f=b&c=" + getArguments().getString("name") + "&date=" + AndroidUtilities.getInstance().getDate()),
+			new URL(AsyncDownload.URL_BASE + "api.php?f=b&c=" + getArguments().getString("name") + "&date=" + AndroidUtilities.getInstance().getDate()),
 		});
 	}
 

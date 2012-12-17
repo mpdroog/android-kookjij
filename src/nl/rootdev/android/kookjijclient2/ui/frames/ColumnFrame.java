@@ -77,7 +77,7 @@ public class ColumnFrame extends AbstractLoadingFrame  {
 		};
 		
 		_download.execute(new URL[] {
-			new URL("http://dev.android.kookjij.mobi/api.php?f=a&date=" + AndroidUtilities.getInstance().getDate())
+			new URL(AsyncDownload.URL_BASE + "api.php?f=a&date=" + AndroidUtilities.getInstance().getDate())
 		});		
 	}
 	@Override

@@ -6,6 +6,7 @@ import java.net.URLConnection;
 
 import nl.rootdev.android.kookjijclient2.R;
 import nl.rootdev.android.kookjijclient2.ui.fixes.ExtendedSherlockFragment;
+import nl.rootdev.android.kookjijclient2.ui.tasks.AsyncDownload;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -86,7 +87,7 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
         	protected Void doInBackground(Void... params) {
 				URLConnection img;
 				try {
-					img = new URL("http://dev.android.kookjij.mobi/api.php?f=d&i=" + _savedInstanceState.getLong("id")).openConnection();
+					img = new URL(AsyncDownload.URL_BASE + "api.php?f=d&i=" + _savedInstanceState.getLong("id")).openConnection();
 					_image = BitmapFactory.decodeStream(img.getInputStream());
 
 				} catch (Exception e) {
@@ -179,7 +180,7 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 			protected void onPostExecute(Void result) {
 				if(_bitmap != null) {
 					try {
-						preview.setTag(new URL("http://dev.android.kookjij.mobi/api.php?f=d&i=" + _savedInstanceState.getLong("id")));
+						preview.setTag(new URL(AsyncDownload.URL_BASE + "api.php?f=d&i=" + _savedInstanceState.getLong("id")));
 					} catch (MalformedURLException e) {
 						// Ignore malformed URL's won't happen (A)
 					}
@@ -194,7 +195,7 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 			protected Void doInBackground(Void... params) {
 				URLConnection img;
 				try {
-					img = new URL("http://dev.android.kookjij.mobi/api.php?f=p&i=" + _savedInstanceState.getLong("id")).openConnection();
+					img = new URL(AsyncDownload.URL_BASE + "api.php?f=p&i=" + _savedInstanceState.getLong("id")).openConnection();
 					_bitmap = BitmapFactory.decodeStream(img.getInputStream());
 
 				} catch (Exception e) {

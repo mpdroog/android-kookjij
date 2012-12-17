@@ -92,7 +92,7 @@ public class SearchFrame extends AbstractLoadingFrame {
 		};
 
 		_download.execute(new URL[] {
-			new URL("http://dev.android.kookjij.mobi/api.php?f=s&i=" + getArguments().getString("query") + "&date=" + AndroidUtilities.getInstance().getDate()),
+			new URL(AsyncDownload.URL_BASE + "api.php?f=s&i=" + getArguments().getString("query") + "&date=" + AndroidUtilities.getInstance().getDate()),
 		});
 	}
 
