@@ -62,6 +62,7 @@ public class SearchFrame extends AbstractLoadingFrame {
 							bundle.putStringArray("names", names);
 							bundle.putLongArray("lastEdits", lastEdits);
 							bundle.putLongArray("ids", ids);
+							bundle.putString("query", getArguments().getString("query"));
 						}
 					}
 					home.setArguments(bundle);

@@ -101,6 +101,7 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 				}
 				_textStream = new ProgressInputStream(link.getInputStream(), link.getContentLength());
 				startTextDownload(_textStream);
+				_textStream.close();
 			}
 			if (params.length == 2) {
 				// Only image on speedy connection
@@ -111,6 +112,7 @@ public abstract class AsyncDownload extends AsyncTask<URL, String, String> {
 					}
 					_imageStream = new ProgressInputStream(img.getInputStream(), img.getContentLength());
 					getImageDownload(BitmapFactory.decodeStream(_imageStream));
+					_imageStream.close();
 				}
 			}
 		}

@@ -62,6 +62,7 @@ public class CategoryFrame extends AbstractLoadingFrame {
 							bundle.putStringArray("names", names);
 							bundle.putLongArray("lastEdits", lastEdits);
 							bundle.putLongArray("ids", ids);
+							bundle.putString("categoryName", getArguments().getString("name"));
 						}
 					}
 					home.setArguments(bundle);
