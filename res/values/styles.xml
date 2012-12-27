@@ -4,6 +4,8 @@
 	    <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
 	    <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
 	    <!-- End Christmas background + colors -->
+	    
+	    <item name="android:windowBackground">@color/background_default</item>
     </style>
     
     <!-- Christmas background + colors -->
@@ -20,5 +22,6 @@
 	</style>
 
     <color name="tab_indicator_text">#FFFFFF</color>
+    <color name="background_default">#EDEDED</color>
     <!-- End christmas background + colors -->
 </resources>
