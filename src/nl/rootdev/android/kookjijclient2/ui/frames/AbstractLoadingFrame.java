@@ -162,6 +162,7 @@ public abstract class AbstractLoadingFrame extends SherlockFragment implements I
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		setRetainInstance(true);
 		if (savedInstanceState != null) {
 			// Already loaded, do nothing
 			((LinearLayout) getView().findViewById(R.id.loading)).setVisibility(View.GONE);
