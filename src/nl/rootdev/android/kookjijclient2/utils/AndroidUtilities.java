@@ -244,7 +244,6 @@ public class AndroidUtilities {
 		// http://stackoverflow.com/questions/7165830/what-is-the-size-of-actionbar-in-pixels
 		int height = convertDipToPixels(56, context);
 		
-		System.out.println(height);
 		Bitmap img = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		
 		Canvas canvas = new Canvas(img);
