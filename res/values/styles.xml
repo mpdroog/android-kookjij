@@ -4,7 +4,6 @@
 	    <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
 	    <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
 	    <!-- End Christmas background + colors -->
-	    
 	    <item name="android:windowBackground">@color/background_default</item>
     </style>
     
@@ -20,7 +19,8 @@
     <style name="Widget.Styled.ActionBar.TitleTextStyle" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
        	<item name="android:textColor">@color/tab_indicator_text</item>
 	</style>
-
+    
+    <color name="actionbar_red_background">#881F19</color>
     <color name="tab_indicator_text">#FFFFFF</color>
     <color name="background_default">#EDEDED</color>
     <!-- End christmas background + colors -->

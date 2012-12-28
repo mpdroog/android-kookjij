@@ -13,13 +13,27 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.text.format.DateUtils;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -202,11 +216,40 @@ public class AndroidUtilities {
     	return adLayout;
 	}
 	
+	public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(bmp1, new Matrix(), null);
+        canvas.drawBitmap(bmp2, 0, 0, null);
+        return bmOverlay;
+    }
+		
 	public void setChristmasTheme(ActionBar bar, Context context)
 	{
-        BitmapDrawable background = new BitmapDrawable(context.getResources(), BitmapFactory.decodeResource(context.getResources(), R.drawable.christmas));
-        background.setGravity(Gravity.LEFT);
-        bar.setBackgroundDrawable(background);
+		WindowManager manager = (WindowManager) context.getSystemService("window");
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		manager.getDefaultDisplay().getMetrics(outMetrics);
+		int width = outMetrics.widthPixels;
+		int height = outMetrics.heightPixels;
+		
+		Bitmap img = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		
+		Canvas canvas = new Canvas(img);
+		canvas.drawColor(Color.rgb(136, 31, 25));
+		
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		Bitmap bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.christmas, options);
+
+		canvas.drawBitmap(
+				bg,
+				null,
+				new Rect(100, 0, 250, height),
+				null
+		);
+		
+		img.prepareToDraw();		
+		BitmapDrawable d = new BitmapDrawable(context.getResources(), img);
+		bar.setBackgroundDrawable(d);		
 	}
 	
 	public synchronized int getUniqueNumber()
