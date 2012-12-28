@@ -17,7 +17,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
@@ -208,13 +207,18 @@ public class AndroidUtilities {
     	return adLayout;
 	}
 	
-	public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
-        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
-        Canvas canvas = new Canvas(bmOverlay);
-        canvas.drawBitmap(bmp1, new Matrix(), null);
-        canvas.drawBitmap(bmp2, 0, 0, null);
-        return bmOverlay;
-    }
+	/**
+	 * Convert dip-value to pixels.
+	 * http://stackoverflow.com/questions/8399184/convert-dip-to-px-in-android
+	 * 
+	 * @param dips
+	 * @param context
+	 * @return
+	 */
+	public static int convertDipToPixels(float dips, Context context)
+	{
+	    return (int) (dips * context.getResources().getDisplayMetrics().density + 0.5f);
+	}
 		
 	public void setChristmasTheme(ActionBar bar, Context context)
 	{
@@ -236,8 +240,11 @@ public class AndroidUtilities {
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		manager.getDefaultDisplay().getMetrics(outMetrics);
 		int width = outMetrics.widthPixels;
-		int height = outMetrics.heightPixels;
+		// Pain in the ass is this, getting the height of the actionbar..
+		// http://stackoverflow.com/questions/7165830/what-is-the-size-of-actionbar-in-pixels
+		int height = convertDipToPixels(56, context);
 		
+		System.out.println(height);
 		Bitmap img = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		
 		Canvas canvas = new Canvas(img);
