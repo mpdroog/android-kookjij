@@ -55,7 +55,9 @@ public class RecipieFrame extends AbstractLoadingFrame  {
 						
 					}
 					home.setArguments(bundle);
-					home.setImage(_image);
+					if (_image != null) {
+						home.setImage(_image);
+					}
 					
 					final FragmentTransaction action2 = getFragmentManager().beginTransaction();
 					action2.replace(getFragmentId(), home).commitAllowingStateLoss();
