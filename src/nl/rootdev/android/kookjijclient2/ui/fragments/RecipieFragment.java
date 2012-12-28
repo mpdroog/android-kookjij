@@ -185,6 +185,7 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 						// Ignore malformed URL's won't happen (A)
 					}
 					preview.setImageBitmap(_bitmap);
+					preview.setTag("loaded");
 				} else {
 					// Set no image picture
 					preview.setImageResource(R.drawable.ic_launcher);
