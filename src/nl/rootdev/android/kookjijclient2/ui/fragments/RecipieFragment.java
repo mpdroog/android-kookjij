@@ -178,6 +178,7 @@ public class RecipieFragment extends ExtendedSherlockFragment implements OnClick
 
 			@Override
 			protected void onPostExecute(Void result) {
+				_calledSetImage = true;				
 				if(_bitmap != null) {
 					try {
 						preview.setTag(new URL(AsyncDownload.URL_BASE + "api.php?f=d&i=" + _savedInstanceState.getLong("id")));
