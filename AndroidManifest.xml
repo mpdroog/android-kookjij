@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.rootdev.android.kookjijclient2"
-    android:versionCode="2"
+    android:versionCode="1"
     android:versionName="1.2" >
    	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />    
@@ -11,7 +11,7 @@
         android:targetSdkVersion="14" />
     
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:hardwareAccelerated="true"
         android:theme="@style/Christmas">
@@ -26,29 +26,29 @@
         </activity>
                 
         <activity
-            android:name=".Main"
+            android:name="nl.rootdev.android.kookjijcore.Main"
             android:label="@string/title_activity_main" >
         </activity>
             
         <activity
             android:launchMode="standard"
-            android:name=".CategoryMain"
+            android:name="nl.rootdev.android.kookjijcore.CategoryMain"
             android:label="@string/title_activity_main">
 			<meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main" />			
+                android:value="nl.rootdev.android.kookjijcore.Main" />			
 		</activity>
 		
         <activity
-            android:name=".RecipieActivity"
+            android:name="nl.rootdev.android.kookjijcore.RecipieActivity"
             android:label="@string/title_activity_main" >
 			<meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CategoryMain"  />
+                android:value="nl.rootdev.android.kookjijcore.CategoryMain"  />
         </activity>        
         
         <activity
-            android:name=".SearchActivity"
+            android:name="nl.rootdev.android.kookjijcore.SearchActivity"
             android:label="@string/title_activity_main" >
         </activity>        
     </application>

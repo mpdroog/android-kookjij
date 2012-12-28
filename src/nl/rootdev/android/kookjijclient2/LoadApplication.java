@@ -1,5 +1,6 @@
 package nl.rootdev.android.kookjijclient2;
 
+import nl.rootdev.android.kookjijcore.Main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +27,7 @@ public class LoadApplication extends LicenseCheckActivity {
 		setContentView(R.layout.load_app);
 		
     	Toast.makeText(this, R.string.checking_license, Toast.LENGTH_SHORT).show();
-        //checkLicense();
-    	_validLicense = true;
+        checkLicense();
 
 		_handler = new Handler();
 		_handler.postDelayed(runnable, 1000L);
