@@ -13,25 +13,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
-import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -226,6 +218,20 @@ public class AndroidUtilities {
 		
 	public void setChristmasTheme(ActionBar bar, Context context)
 	{
+		Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int month = calendar.get(Calendar.MONTH);
+
+		// Check if in christmas time
+		if (month == Calendar.DECEMBER && day > 6) {
+			// After 'Sinterklaas'
+		} else if (month == Calendar.JANUARY && day == 1) {
+			// First of month still christmas xD
+		} else {
+			// Not christmas!
+			return;
+		}
+		
 		WindowManager manager = (WindowManager) context.getSystemService("window");
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		manager.getDefaultDisplay().getMetrics(outMetrics);
